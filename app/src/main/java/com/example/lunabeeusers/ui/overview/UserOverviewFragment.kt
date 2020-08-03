@@ -26,6 +26,9 @@ class UserOverviewFragment : Fragment() {
         // Giving the binding access to the OverviewViewModel
         binding.viewModel = viewModel
 
+        // Giving a UserListAdapter to RecyclerView
+        binding.usersRv.adapter = UserListAdapter()
+
         return binding.root
     }
 
