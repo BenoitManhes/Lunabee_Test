@@ -1,6 +1,9 @@
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs"
 
 android {
     compileSdkVersion 29
@@ -50,8 +53,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle_extensions"
 
     // Navigation
-    implementation "android.arch.nav_graph:nav_graph-fragment-ktx:$version_navigation"
-    implementation "android.arch.nav_graph:nav_graph-ui-ktx:$version_navigation"
+    implementation "androidx.navigation:navigation-fragment-ktx:$version_navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$version_navigation"
 
     // Moshi (Convert JSON to Object)
     implementation "com.squareup.moshi:moshi:$version_moshi"
