@@ -30,30 +30,37 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
 
-        <TextView
-            android:id="@+id/firstnameTv"
-            style="@style/textview_user_item"
-            android:layout_width="0dp"
-            android:layout_marginStart="@dimen/medium_margin"
-            app:firstname="@{user}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/userAvatarIv"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Woody" />
-
-        <TextView
-            android:id="@+id/lastnameTv"
-            style="@style/textview_user_item"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/short_margin"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/medium_margin"
             android:layout_marginEnd="@dimen/medium_margin"
-            app:lastname="@{user}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/firstnameTv"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Harrelson" />
+            app:layout_constraintStart_toEndOf="@+id/userAvatarIv"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+
+            <TextView
+                android:id="@+id/firstnameTv"
+                android:layout_width="wrap_content"
+                app:firstname="@{user}"
+                style="@style/textview_user_item"
+                tools:text="Woody" />
+
+            <TextView
+                android:id="@+id/lastnameTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/short_margin"
+                app:lastname="@{user}"
+                style="@style/textview_user_item"
+                tools:text="Harrelson" />
+
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
