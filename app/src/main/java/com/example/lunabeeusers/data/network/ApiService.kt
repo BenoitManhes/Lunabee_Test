@@ -12,7 +12,7 @@ import retrofit2.http.GET
 private const val BASE_URL = "http://server.lunabee.studio:11111/techtest/"
 
 // Moshi Builder
-// Used to convert a JSON in a specific object
+// Used to convert a JSON to a specific object
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()

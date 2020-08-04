@@ -35,11 +35,17 @@ class UserOverviewViewModel : ViewModel() {
             try {
                 var listResult = getUsersDeferred.await()
                 Timber.i("Users Loaded with success")
+                _usersList.value = listResult
 
             } catch ( t: Throwable){
                 Timber.i("Fail to load users")
                 t.printStackTrace()
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }
