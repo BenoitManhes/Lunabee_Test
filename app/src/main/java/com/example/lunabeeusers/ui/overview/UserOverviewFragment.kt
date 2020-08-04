@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.lunabeeusers.R
 
 import com.example.lunabeeusers.databinding.UserOverviewFragmentBinding
 
@@ -28,6 +29,12 @@ class UserOverviewFragment : Fragment() {
 
         // Giving a UserListAdapter to RecyclerView
         binding.usersRv.adapter = UserListAdapter()
+        // Add Decorator to RecyclerView
+        binding.usersRv.addItemDecoration(
+            UserListAdapter.MarginItemDecoration(
+                resources.getDimension(R.dimen.short_margin).toInt()
+            )
+        )
 
         return binding.root
     }

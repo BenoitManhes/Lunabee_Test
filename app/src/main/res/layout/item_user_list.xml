@@ -13,16 +13,17 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/background_light"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/userAvatarIv"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="@dimen/avatar_preview_size"
+            android:layout_height="@dimen/avatar_preview_size"
+            android:layout_marginStart="@dimen/medium_margin"
+            android:layout_marginTop="@dimen/short_margin"
+            android:layout_marginBottom="@dimen/short_margin"
+            android:background="@color/purple_light_extra"
             app:imageUrl="@{user.imgSrcUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +34,7 @@
             android:id="@+id/firstnameTv"
             style="@style/textview_user_item"
             android:layout_width="0dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="@dimen/medium_margin"
             app:firstname="@{user}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/userAvatarIv"
@@ -43,11 +44,13 @@
         <TextView
             android:id="@+id/lastnameTv"
             style="@style/textview_user_item"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/short_margin"
+            android:layout_marginEnd="@dimen/medium_margin"
             app:lastname="@{user}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/firstnameTv"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Harrelson" />
