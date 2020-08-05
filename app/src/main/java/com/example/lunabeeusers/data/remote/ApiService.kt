@@ -1,4 +1,4 @@
-package com.example.lunabeeusers.data.network
+package com.example.lunabeeusers.data.remote
 
 import com.example.lunabeeusers.data.model.User
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory

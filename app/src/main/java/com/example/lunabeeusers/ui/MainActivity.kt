@@ -1,7 +1,8 @@
-package com.example.lunabeeusers
+package com.example.lunabeeusers.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.lunabeeusers.R
 
 class MainActivity : AppCompatActivity() {
 
