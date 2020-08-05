@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="textview_user_item" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">@font/heebo_light</item>
+        <item name="android:textColor">@color/purple_dark</item>
+        <item name="android:textSize">@dimen/item_text_size</item>
+    </style>
+
 </resources>

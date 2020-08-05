@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="medium_margin">16dp</dimen>
+    <dimen name="short_margin">8dp</dimen>
+    <dimen name="avatar_preview_size">50dp</dimen>
+    <dimen name="item_text_size">18sp</dimen>
+</resources>
