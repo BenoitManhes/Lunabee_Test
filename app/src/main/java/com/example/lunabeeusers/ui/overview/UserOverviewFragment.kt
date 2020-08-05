@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import com.example.lunabeeusers.R
 
 import com.example.lunabeeusers.databinding.UserOverviewFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UserOverviewFragment : Fragment() {
 
     private val viewModel: UserOverviewViewModel by lazy {

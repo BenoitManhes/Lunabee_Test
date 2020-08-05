@@ -1,5 +1,6 @@
 package com.example.lunabeeusers.ui.overview
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,10 +12,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class UserOverviewViewModel : ViewModel() {
-
-    // Repository
-    private val repository: UserRepository = UserRepository()
+class UserOverviewViewModel @ViewModelInject constructor(
+    private val repository: UserRepository
+) : ViewModel() {
 
     // The internal MutableLiveData List<User> that stores the users return by the API
     private val _usersList = MutableLiveData<List<User>>()

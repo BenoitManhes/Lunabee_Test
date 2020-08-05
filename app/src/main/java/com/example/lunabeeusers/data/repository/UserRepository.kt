@@ -1,10 +1,11 @@
 package com.example.lunabeeusers.data.repository
 
 import com.example.lunabeeusers.data.remote.ApiService
-import com.example.lunabeeusers.data.remote.UsersApi
+import javax.inject.Inject
 
-class UserRepository {
-    var client: ApiService = UsersApi.retrofitService
+class UserRepository @Inject constructor(
+    private val client: ApiService
+) {
 
     fun getUsers() = client.getUsers()
 }
