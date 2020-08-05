@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs"
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion 29
@@ -79,5 +80,11 @@ dependencies {
 
     // Timber
     implementation "com.jakewharton.timber:timber:$version_timber"
+
+    //Hilt
+    implementation "com.google.dagger:hilt-android:$version_hilt"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02"
+    kapt "com.google.dagger:hilt-android-compiler:$version_hilt"
+    kapt "androidx.hilt:hilt-compiler:1.0.0-alpha02"
 
 }
