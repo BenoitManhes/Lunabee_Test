@@ -67,8 +67,6 @@ class UserListAdapter : ListAdapter<User, UserListAdapter.UserViewHolder>(DiffCa
                 if (parent.getChildAdapterPosition(view) == 0) {
                     top = spaceHeight
                 }
-                //                left =  spaceHeight
-                //                right = spaceHeight
                 bottom = spaceHeight
             }
         }
