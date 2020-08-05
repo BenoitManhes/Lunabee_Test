@@ -28,10 +28,10 @@ interface ApiService {
 
     @GET("users")
     fun getUsers():
-            Deferred<List<User>>
+        Deferred<List<User>>
 }
 
-object UsersApi{
+object UsersApi {
     val retrofitService: ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }

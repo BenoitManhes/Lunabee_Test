@@ -12,8 +12,8 @@ import com.example.lunabeeusers.databinding.ItemUserListBinding
 
 class UserListAdapter : ListAdapter<User, UserListAdapter.UserViewHolder>(DiffCallback()) {
 
-    override fun onCreateViewHolder( parent: ViewGroup,
-                                     viewType: Int): UserViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup,
+        viewType: Int): UserViewHolder {
         return UserViewHolder.from(parent)
     }
 
@@ -62,13 +62,13 @@ class UserListAdapter : ListAdapter<User, UserListAdapter.UserViewHolder>(DiffCa
          * Setting space between Recycler View’s cell
          */
         override fun getItemOffsets(outRect: Rect, view: View,
-                                    parent: RecyclerView, state: RecyclerView.State) {
+            parent: RecyclerView, state: RecyclerView.State) {
             with(outRect) {
                 if (parent.getChildAdapterPosition(view) == 0) {
                     top = spaceHeight
                 }
-//                left =  spaceHeight
-//                right = spaceHeight
+                //                left =  spaceHeight
+                //                right = spaceHeight
                 bottom = spaceHeight
             }
         }

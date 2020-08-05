@@ -24,11 +24,11 @@ class UserOverviewViewModel : ViewModel() {
     private var viewModelJob = Job()
     private var coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    init{
+    init {
         getUsersFromApi()
     }
 
-    private fun getUsersFromApi(){
+    private fun getUsersFromApi() {
         var getUsersDeferred = UsersApi.retrofitService.getUsers()
 
         coroutineScope.launch {
@@ -37,7 +37,7 @@ class UserOverviewViewModel : ViewModel() {
                 Timber.i("Users Loaded with success")
                 _usersList.value = listResult
 
-            } catch ( t: Throwable){
+            } catch (t: Throwable) {
                 Timber.i("Fail to load users")
                 t.printStackTrace()
             }

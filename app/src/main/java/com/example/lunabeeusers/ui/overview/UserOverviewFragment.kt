@@ -16,8 +16,8 @@ class UserOverviewFragment : Fragment() {
         ViewModelProviders.of(this).get(UserOverviewViewModel::class.java)
     }
 
-    override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?,
-                               savedInstanceState: Bundle? ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?): View? {
 
         val binding = UserOverviewFragmentBinding.inflate(inflater)
 
@@ -38,6 +38,5 @@ class UserOverviewFragment : Fragment() {
 
         return binding.root
     }
-
 
 }
