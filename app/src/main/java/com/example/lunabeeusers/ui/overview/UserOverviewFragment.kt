@@ -1,5 +1,6 @@
 package com.example.lunabeeusers.ui.overview
 
+import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -56,6 +57,29 @@ class UserOverviewFragment : Fragment() {
                 itemAdapter.add(it)
             }
         })
+
+        // Observing statut
+        viewModel.statut.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                when (it) {
+                    UserOverviewViewModel.Statut.SUCCESS -> onSuccess()
+                    UserOverviewViewModel.Statut.LOADING -> onLoading()
+                    UserOverviewViewModel.Statut.ERROR -> onError()
+                }
+            }
+        })
+    }
+
+    private fun onError() {
+        binding.spinner.visibility = View.GONE
+    }
+
+    private fun onSuccess() {
+        binding.spinner.visibility = View.GONE
+    }
+
+    private fun onLoading() {
+        binding.spinner.visibility = View.VISIBLE
     }
 
 }

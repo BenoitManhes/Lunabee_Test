@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.android.marsrealestate.MainActivity">
+        tools:context=".ui.MainActivity">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/users_rv"
@@ -22,6 +22,22 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="16"
             tools:listitem="@layout/item_user_list" />
+
+        <ProgressBar
+            android:id="@+id/spinner"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top_spinner"
+            android:background="@drawable/ic_spinner"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/purple_light"
+            android:indeterminateTintMode="src_atop"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

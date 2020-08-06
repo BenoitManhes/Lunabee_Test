@@ -23,6 +23,11 @@ class UserOverviewViewModel @ViewModelInject constructor(
     val userList: LiveData<List<User>>
         get() = _usersList
 
+    private val _statut = MutableLiveData<Statut>()
+
+    val statut: LiveData<Statut>
+        get() = _statut
+
     // Coroutines
     private var viewModelJob = Job()
     private var coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
@@ -34,13 +39,16 @@ class UserOverviewViewModel @ViewModelInject constructor(
     private fun getUsersFromApi() {
         coroutineScope.launch {
             try {
+                _statut.value = Statut.LOADING
                 var listResult = repository.getUsers()
                 Timber.i("Users Loaded with success")
                 _usersList.value = listResult
+                _statut.value = Statut.SUCCESS
 
             } catch (t: Throwable) {
                 Timber.i("Fail to load users")
                 t.printStackTrace()
+                _statut.value = Statut.ERROR
             }
         }
     }
@@ -48,5 +56,11 @@ class UserOverviewViewModel @ViewModelInject constructor(
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    enum class Statut {
+        LOADING,
+        SUCCESS,
+        ERROR
     }
 }
