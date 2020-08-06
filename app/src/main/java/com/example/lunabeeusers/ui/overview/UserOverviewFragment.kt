@@ -8,8 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.lunabeeusers.R
+import com.example.lunabeeusers.data.model.User
 
 import com.example.lunabeeusers.databinding.UserOverviewFragmentBinding
+import com.example.lunabeeusers.utils.MarginItemDecoration
+import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.adapters.ItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,7 +21,8 @@ class UserOverviewFragment : Fragment() {
 
     private val viewModel: UserOverviewViewModel by viewModels()
     private lateinit var binding: UserOverviewFragmentBinding
-    private lateinit var adapter: UserListAdapter
+    private lateinit var fastAdapter: FastAdapter<User>
+    private val itemAdapter = ItemAdapter<User>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
@@ -32,11 +37,12 @@ class UserOverviewFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = UserListAdapter()
-        binding.usersRv.adapter = adapter
+        fastAdapter = FastAdapter.with(itemAdapter)
+
+        binding.usersRv.adapter = fastAdapter
         // Add Decorator to RecyclerView
         binding.usersRv.addItemDecoration(
-            UserListAdapter.MarginItemDecoration(
+            MarginItemDecoration(
                 resources.getDimension(R.dimen.short_margin).toInt()
             )
         )
@@ -46,7 +52,8 @@ class UserOverviewFragment : Fragment() {
         // Observing userList from viewModel
         viewModel.userList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.submitList(it)
+                itemAdapter.clear()
+                itemAdapter.add(it)
             }
         })
     }

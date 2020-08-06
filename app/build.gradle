@@ -54,12 +54,8 @@ dependencies {
     // UI
     implementation "androidx.constraintlayout:constraintlayout:$version_constraint_layout"
     implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
-
-    //Lifecycle
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$version_lifecycle"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$version_lifecycle"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$version_lifecycle"
-    implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle"
+    implementation "com.mikepenz:fastadapter:$version_fast_adapter"
+    implementation "com.mikepenz:fastadapter-extensions-binding:$version_fast_adapter"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$version_navigation"
