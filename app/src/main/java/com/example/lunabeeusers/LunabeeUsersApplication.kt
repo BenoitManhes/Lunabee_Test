@@ -1,8 +1,10 @@
-package com.example.lunabeeusers.core
+package com.example.lunabeeusers
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
+@HiltAndroidApp
 class LunabeeUsersApplication : Application() {
 
     override fun onCreate() {
