@@ -3,7 +3,6 @@ package com.example.lunabeeusers.di
 import com.example.lunabeeusers.data.remote.ApiService
 import com.example.lunabeeusers.data.repository.UserRepository
 import com.example.lunabeeusers.utils.Constant
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -22,7 +21,6 @@ object AppModule {
     @Provides
     fun provideRetrofit(moshi: Moshi): Retrofit = Retrofit.Builder()
         .baseUrl(Constant.BASE_URL)
-        .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 

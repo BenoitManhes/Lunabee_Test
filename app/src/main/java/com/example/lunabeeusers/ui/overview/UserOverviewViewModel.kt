@@ -32,11 +32,9 @@ class UserOverviewViewModel @ViewModelInject constructor(
     }
 
     private fun getUsersFromApi() {
-        var getUsersDeferred = repository.getUsers()
-
         coroutineScope.launch {
             try {
-                var listResult = getUsersDeferred.await()
+                var listResult = repository.getUsers()
                 Timber.i("Users Loaded with success")
                 _usersList.value = listResult
 
