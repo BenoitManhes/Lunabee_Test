@@ -4,12 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="user"
-            type="com.example.lunabeeusers.data.model.User" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +18,6 @@
             android:layout_marginTop="@dimen/short_margin"
             android:layout_marginBottom="@dimen/short_margin"
             android:background="@color/purple_light_extra"
-            app:imageUrl="@{user.imgSrcUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -48,7 +41,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/textview_user_item"
-                app:firstname="@{user}"
                 tools:text="Woody" />
 
             <TextView
@@ -57,7 +49,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/short_margin"
                 android:textAppearance="@style/textview_user_item"
-                app:lastname="@{user}"
                 tools:text="Harrelson" />
 
         </LinearLayout>

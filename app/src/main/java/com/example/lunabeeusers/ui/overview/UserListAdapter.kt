@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lunabeeusers.data.model.User
 import com.example.lunabeeusers.databinding.ItemUserListBinding
+import com.example.lunabeeusers.utils.loadImageFromUrl
 
 class UserListAdapter : ListAdapter<User, UserListAdapter.UserViewHolder>(DiffCallback()) {
 
@@ -24,9 +25,13 @@ class UserListAdapter : ListAdapter<User, UserListAdapter.UserViewHolder>(DiffCa
 
     class UserViewHolder(private var binding: ItemUserListBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(user: User) {
-            binding.user = user
-            binding.executePendingBindings()
+            user?.let {
+                binding.firstnameTv.text = user.firstname
+                binding.lastnameTv.text = user.lastname
+                loadImageFromUrl(binding.userAvatarIv, user.imgSrcUrl)
+            }
         }
 
         companion object {
