@@ -36,6 +36,10 @@ class UserOverviewViewModel @ViewModelInject constructor(
         getUsersFromApi()
     }
 
+    fun refreshData() {
+        getUsersFromApi()
+    }
+
     private fun getUsersFromApi() {
         coroutineScope.launch {
             try {

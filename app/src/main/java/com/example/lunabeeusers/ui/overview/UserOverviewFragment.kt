@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.lunabeeusers.R
 import com.example.lunabeeusers.data.model.User
 
@@ -34,6 +35,7 @@ class UserOverviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        setupSwipRefreshLayout()
         setupObservers()
     }
 
@@ -47,6 +49,13 @@ class UserOverviewFragment : Fragment() {
                 resources.getDimension(R.dimen.short_margin).toInt()
             )
         )
+    }
+
+    private fun setupSwipRefreshLayout() {
+        binding.swiperefresh.setColorSchemeResources(R.color.purple_light)
+        binding.swiperefresh.setOnRefreshListener {
+            viewModel.refreshData()
+        }
     }
 
     private fun setupObservers() {
@@ -72,14 +81,18 @@ class UserOverviewFragment : Fragment() {
 
     private fun onError() {
         binding.spinner.visibility = View.GONE
+        binding.swiperefresh.isRefreshing = false
     }
 
     private fun onSuccess() {
         binding.spinner.visibility = View.GONE
+        binding.swiperefresh.isRefreshing = false
     }
 
     private fun onLoading() {
-        binding.spinner.visibility = View.VISIBLE
+        if (!binding.swiperefresh.isRefreshing) {
+            binding.spinner.visibility = View.VISIBLE
+        }
     }
 
 }
