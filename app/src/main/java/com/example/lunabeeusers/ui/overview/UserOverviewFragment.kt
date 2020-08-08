@@ -68,8 +68,7 @@ class UserOverviewFragment : Fragment() {
         // Observing userList from viewModel
         viewModel.userList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                itemAdapter.clear()
-                itemAdapter.add(it)
+                itemAdapter.set(it)
             }
         })
 
