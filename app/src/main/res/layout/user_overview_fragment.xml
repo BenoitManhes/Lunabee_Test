@@ -9,18 +9,20 @@
         tools:context=".ui.MainActivity">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/swiperefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="81dp"
+            tools:layout_editor_absoluteY="78dp"
+            tools:visibility="gone">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/users_rv"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:background="@drawable/gradient_purple"
                 android:clipToPadding="false"
                 android:padding="6dp"
-                android:background="@drawable/gradient_purple"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -45,6 +47,59 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/syncFailedIv"
+            android:layout_width="@dimen/cloud_img_size"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="H,3:2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_no_connection_cloud" />
+
+        <TextView
+            android:id="@+id/syncFailedTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/short_margin"
+            android:text="@string/sync_failed"
+            android:textAlignment="center"
+            android:textAppearance="@style/textview_error"
+            app:layout_constraintEnd_toEndOf="@+id/syncFailedIv"
+            app:layout_constraintStart_toStartOf="@+id/syncFailedIv"
+            app:layout_constraintTop_toBottomOf="@+id/syncFailedIv"
+            tools:textColor="@android:color/black" />
+
+        <LinearLayout
+            android:id="@+id/tryAgain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large_margin"
+            android:background="@drawable/round_corner_background"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/syncFailedTv">
+
+            <ImageView
+                android:layout_width="@dimen/refresh_ic_size"
+                android:layout_height="@dimen/refresh_ic_size"
+                android:layout_marginLeft="@dimen/short_padding"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:srcCompat="@drawable/ic_refresh" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/short_margin"
+                android:layout_marginRight="@dimen/short_margin"
+                android:text="@string/try_again"
+                android:textAppearance="@style/little_button_text" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

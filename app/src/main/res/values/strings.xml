@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Lunabee Users</string>
+    <string name="sync_failed">Error while loading data</string>
+    <string name="try_again">Try again</string>
 </resources>
