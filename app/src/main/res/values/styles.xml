@@ -14,4 +14,16 @@
         <item name="android:textSize">@dimen/item_text_size</item>
     </style>
 
+    <style name="textview_error" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">@font/heebo_light</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/error_text_size</item>
+    </style>
+
+    <style name="little_button_text" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">@font/heebo_light</item>
+        <item name="android:textColor">@color/purple_light</item>
+        <item name="android:textSize">@dimen/error_text_size</item>
+    </style>
+
 </resources>

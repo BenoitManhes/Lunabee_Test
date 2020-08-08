@@ -4,4 +4,10 @@
     <dimen name="short_margin">8dp</dimen>
     <dimen name="avatar_preview_size">50dp</dimen>
     <dimen name="item_text_size">18sp</dimen>
+    <dimen name="margin_top_spinner">40dp</dimen>
+    <dimen name="cloud_img_size">150dp</dimen>
+    <dimen name="error_text_size">10sp</dimen>
+    <dimen name="short_padding">4dp</dimen>
+    <dimen name="large_margin">32dp</dimen>
+    <dimen name="refresh_ic_size">12dp</dimen>
 </resources>
