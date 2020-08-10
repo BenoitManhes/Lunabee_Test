@@ -10,4 +10,5 @@
     <dimen name="short_padding">4dp</dimen>
     <dimen name="large_margin">32dp</dimen>
     <dimen name="refresh_ic_size">12dp</dimen>
+    <dimen name="item_spacing">4dp</dimen>
 </resources>
