@@ -10,7 +10,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class UserOverviewViewModel @ViewModelInject constructor(
     private val repository: UserRepository
@@ -28,6 +27,13 @@ class UserOverviewViewModel @ViewModelInject constructor(
     val statut: LiveData<Statut>
         get() = _statut
 
+    // The internal MutableLiveData String that stores the search term to filter user
+    private val _searchTerm = MutableLiveData<String>()
+
+    // External MutableLiveData String used to filter users
+    val searchTerm: LiveData<String>
+        get() = _searchTerm
+
     // Coroutines
     private var viewModelJob = Job()
     private var coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
@@ -40,17 +46,27 @@ class UserOverviewViewModel @ViewModelInject constructor(
         getUsersFromApi()
     }
 
+    fun searchUser(searchTerm: String?) {
+        if (searchTerm == null) {
+            _searchTerm.value = ""
+        } else {
+            _searchTerm.value = searchTerm
+        }
+    }
+
+    fun clearUserFilter() {
+        _searchTerm.value = ""
+    }
+
     private fun getUsersFromApi() {
         coroutineScope.launch {
             try {
                 _statut.value = Statut.LOADING
                 var listResult = repository.getUsers()
-                Timber.i("Users Loaded with success")
                 _usersList.value = listResult
                 _statut.value = Statut.SUCCESS
 
             } catch (t: Throwable) {
-                Timber.i("Fail to load users")
                 t.printStackTrace()
                 _statut.value = Statut.ERROR
             }

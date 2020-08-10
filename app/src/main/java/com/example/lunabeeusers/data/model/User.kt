@@ -32,4 +32,8 @@ data class User(
     override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): ItemUserListBinding {
         return ItemUserListBinding.inflate(inflater, parent, false)
     }
+
+    fun isConcernedByTerm(term: String): Boolean =
+        (firstname + " " + lastname).contains(term, ignoreCase = true) ||
+            (lastname + " " + firstname).contains(term, ignoreCase = true)
 }
