@@ -3,4 +3,5 @@
     <string name="app_name">Lunabee Users</string>
     <string name="sync_failed">Erreur lors du chargement des données.</string>
     <string name="try_again">Réessayer</string>
+    <string name="search_item_title">Rechercher</string>
 </resources>
