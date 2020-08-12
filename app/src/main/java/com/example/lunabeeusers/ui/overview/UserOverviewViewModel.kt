@@ -32,6 +32,11 @@ class UserOverviewViewModel @ViewModelInject constructor(
     val searchTerm: LiveData<String>
         get() = _searchTerm
 
+    // Navigation
+    private var _navigateToSleepDetail = MutableLiveData<User>()
+        get() = _navigateToSleepDetail
+    val navigateToSleepDetail: LiveData<User>
+
     init {
         getUsersFromApi()
     }
@@ -50,6 +55,14 @@ class UserOverviewViewModel @ViewModelInject constructor(
 
     fun clearUserFilter() {
         _searchTerm.value = ""
+    }
+
+    fun onUserCliked(user: User) {
+        _navigateToSleepDetail.value = user
+    }
+
+    fun doneSleepDetailNavigatided() {
+        _navigateToSleepDetail.value = null
     }
 
     private fun getUsersFromApi() {

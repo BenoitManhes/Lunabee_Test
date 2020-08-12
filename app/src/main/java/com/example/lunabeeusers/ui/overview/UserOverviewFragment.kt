@@ -15,9 +15,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.example.lunabeeusers.R
 import com.example.lunabeeusers.data.model.User
 import com.example.lunabeeusers.databinding.UserOverviewFragmentBinding
+import com.example.lunabeeusers.ui.detail.DetailFragment
+import com.example.lunabeeusers.ui.detail.DetailFragmentDirections
 import com.example.lunabeeusers.ui.overview.UserOverviewViewModel.Statut
 import com.example.lunabeeusers.utils.MarginItemDecoration
 import com.google.android.material.snackbar.Snackbar
@@ -93,26 +97,9 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
     }
 
     private fun setupRecyclerView() {
+        fastAdapter = FastAdapter.with(itemAdapter)
 
-        //create fastAdapter which will manage everything
-        fastItemAdapter = FastItemAdapter()
-
-        //configure the filter
-        fastItemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
-            if (item is User) {
-                //return true if we should filter it out
-                item.isConcernedByTerm(constraint.toString())
-            } else {
-                //return false to keep it
-                false
-            }
-        }
-        fastItemAdapter.itemFilter.itemFilterListener = this
-
-        // Setup RecyclerView
-        binding.usersRv.adapter = fastItemAdapter
-        binding.usersRv.layoutManager = LinearLayoutManager(context)
-        binding.usersRv.itemAnimator = DefaultItemAnimator()
+        binding.usersRv.adapter = fastAdapter
         // Add Decorator to RecyclerView
         binding.usersRv.addItemDecoration(
             MarginItemDecoration(
@@ -154,7 +141,6 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         viewModel.searchTerm.observe(viewLifecycleOwner, Observer {
             updateFilter(it)
         })
-
     }
 
     /**
