@@ -16,12 +16,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
+import androidx.navigation.ui.onNavDestinationSelected
 import com.example.lunabeeusers.R
 import com.example.lunabeeusers.data.model.User
 import com.example.lunabeeusers.databinding.UserOverviewFragmentBinding
-import com.example.lunabeeusers.ui.detail.DetailFragment
-import com.example.lunabeeusers.ui.detail.DetailFragmentDirections
 import com.example.lunabeeusers.ui.overview.UserOverviewViewModel.Statut
 import com.example.lunabeeusers.utils.MarginItemDecoration
 import com.google.android.material.snackbar.Snackbar
@@ -65,6 +63,11 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
             setupSearchView(searchItem)
         }
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return item.onNavDestinationSelected(findNavController()) ||
+            super.onOptionsItemSelected(item)
     }
 
     private fun setupSearchView(item: MenuItem) {

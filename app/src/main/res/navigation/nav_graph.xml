@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/userOverviewFragment"
         android:name="com.example.lunabeeusers.ui.overview.UserOverviewFragment"
-        android:label="UserOverviewFragment"
+        android:label="@string/fragment_overview_label"
         tools:layout="@layout/user_overview_fragment">
         <action
             android:id="@+id/action_userOverviewFragment_to_detailFragment"
@@ -21,14 +21,10 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.lunabeeusers.ui.detail.DetailFragment"
-        android:label="DetailFragment"
+        android:label="@string/fragment_detail_label"
         tools:layout="@layout/detail_fragment">
         <argument
             android:name="user"
             app:argType="com.example.lunabeeusers.data.model.User" />
-        <action
-            android:id="@+id/action_detailFragment_to_userOverviewFragment"
-            app:destination="@id/userOverviewFragment"
-            app:popUpTo="@id/userOverviewFragment" />
     </fragment>
 </navigation>

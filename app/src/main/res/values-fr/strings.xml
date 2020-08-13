@@ -5,4 +5,6 @@
     <string name="try_again">Réessayer</string>
     <string name="search_item_title">Rechercher</string>
     <string name="no_result_filter">Aucun résultat</string>
+    <string name="fragment_overview_label">Utilisateurs Lunabee</string>
+    <string name="fragment_detail_label">Utilisateur</string>
 </resources>

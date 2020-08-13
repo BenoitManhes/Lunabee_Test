@@ -28,14 +28,10 @@ class DetailFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Getting current user from arguments and setting in viewModel
+        // Setting current user in viewModel
         val arguments = DetailFragmentArgs.fromBundle(requireArguments())
         viewModel.setCurrentUser(arguments.user)
 
