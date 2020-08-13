@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import com.example.lunabeeusers.data.model.User
 
 import com.example.lunabeeusers.databinding.DetailFragmentBinding
+import com.example.lunabeeusers.utils.loadImageFromUrl
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,7 +52,9 @@ class DetailFragment : Fragment() {
 
     private fun bindUser(user: User) {
         binding.textView.text = user.firstname + " " + user.lastname
-
+        binding.emailTv.text = user.email
+        binding.genreTv.text = user.gender
+        loadImageFromUrl(binding.userAvatarIv, user.imgSrcUrl)
     }
 
 }

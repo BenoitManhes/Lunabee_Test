@@ -26,6 +26,12 @@
         <item name="android:textSize">@dimen/error_text_size</item>
     </style>
 
+    <style name="detail_title_text" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">@font/palanquin_medium</item>
+        <item name="android:textColor">@color/colorBackgroundDark</item>
+        <item name="android:textSize">@dimen/detail_text_title</item>
+    </style>
+
     <style name="little_icon_button">
         <item name="android:minHeight">@dimen/button_min_size</item>
         <item name="android:minWidth">@dimen/button_min_size</item>
