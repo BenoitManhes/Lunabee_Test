@@ -83,5 +83,32 @@
             app:layout_constraintTop_toBottomOf="@+id/syncFailedTv"
             style="@style/little_icon_button" />
 
+        <ImageView
+            android:id="@+id/noResultIv"
+            android:layout_width="@dimen/no_result_size"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/no_result_margin"
+            android:visibility="gone"
+            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_no_search_results"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/noResultText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/short_margin"
+            android:text="@string/no_result_filter"
+            android:textAlignment="center"
+            android:textAppearance="@style/textview_error"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/noResultIv"
+            app:layout_constraintStart_toStartOf="@+id/noResultIv"
+            app:layout_constraintTop_toBottomOf="@+id/noResultIv"
+            tools:visibility="visible" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

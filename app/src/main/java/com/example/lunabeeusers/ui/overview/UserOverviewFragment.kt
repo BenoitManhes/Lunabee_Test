@@ -22,7 +22,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
-import com.mikepenz.fastadapter.dsl.itemAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -133,6 +132,7 @@ class UserOverviewFragment : Fragment() {
         viewModel.searchTerm.observe(viewLifecycleOwner, Observer {
             updateFilter(it)
         })
+
     }
 
     /**
@@ -141,6 +141,7 @@ class UserOverviewFragment : Fragment() {
     private fun updateStatutUi(statut: Statut) {
         val nothingToShow = (viewModel.userList.value == null)
 
+        // Synchronization elements
         binding.spinner.isVisible = !binding.swiperefresh.isRefreshing && statut.equals(Statut.LOADING)
         binding.syncFailedIv.isVisible = nothingToShow && statut.equals(Statut.ERROR)
         binding.syncFailedTv.isVisible = nothingToShow && statut.equals(Statut.ERROR)
@@ -153,6 +154,21 @@ class UserOverviewFragment : Fragment() {
         if (!statut.equals(Statut.LOADING)) {
             binding.swiperefresh.isRefreshing = false
         }
+    }
+
+    /**
+     * Handle ui element visibility according to filtering result
+     */
+    private fun updateFilteringUi() {
+        // Filtering elements
+        val isfilterResultListEmpty = itemAdapter.itemList.isEmpty
+        val isfilterResultEmpty = itemAdapter.adapterItems.isEmpty()
+        Timber.d("isfilter itemList Empty: ${isfilterResultListEmpty}")
+        Timber.d("itemList size: ${itemAdapter.itemList.size()}")
+        Timber.d("isfilter adapterItems Empty: ${isfilterResultEmpty}")
+        Timber.d("adapterItems size: ${itemAdapter.adapterItems.size}")
+        binding.noResultIv.isVisible = isfilterResultEmpty
+        binding.noResultText.isVisible = isfilterResultEmpty
     }
 
     private fun showSnackBar(messageSrc: Int) {
