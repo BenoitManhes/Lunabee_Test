@@ -118,6 +118,7 @@ class UserOverviewFragment : Fragment() {
         viewModel.userList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 FastAdapterDiffUtil[itemAdapter] = it
+                updateFilter(viewModel.searchTerm.value)
             }
         })
 
@@ -130,12 +131,7 @@ class UserOverviewFragment : Fragment() {
 
         // Observing search term
         viewModel.searchTerm.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                itemAdapter.filter(it)
-                itemAdapter.itemFilter.filterPredicate = { user: User, constraint: CharSequence? ->
-                    user.isConcernedByTerm(constraint.toString())
-                }
-            }
+            updateFilter(it)
         })
     }
 
@@ -163,6 +159,15 @@ class UserOverviewFragment : Fragment() {
         val snackbar = Snackbar.make(binding.root, messageSrc, Snackbar.LENGTH_SHORT)
         snackbar.view.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBackgroundDark))
         snackbar.show()
+    }
+
+    private fun updateFilter(term: String?) {
+        term?.let {
+            itemAdapter.filter(term)
+            itemAdapter.itemFilter.filterPredicate = { user: User, constraint: CharSequence? ->
+                user.isConcernedByTerm(constraint.toString())
+            }
+        }
     }
 
 }
