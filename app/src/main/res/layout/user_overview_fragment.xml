@@ -6,7 +6,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.MainActivity">
+        tools:context=".ui.MainActivity"
+        tools:background="@color/colorBackgroundDark">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swiperefresh"
@@ -68,37 +69,19 @@
             android:textAppearance="@style/textview_error"
             app:layout_constraintEnd_toEndOf="@+id/syncFailedIv"
             app:layout_constraintStart_toStartOf="@+id/syncFailedIv"
-            app:layout_constraintTop_toBottomOf="@+id/syncFailedIv"
-            tools:textColor="@android:color/black" />
+            app:layout_constraintTop_toBottomOf="@+id/syncFailedIv"/>
 
-        <LinearLayout
+        <Button
             android:id="@+id/tryAgain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/large_margin"
-            android:background="@drawable/round_corner_background"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="4dp"
+            android:drawableLeft="@drawable/ic_refresh"
+            android:text="@string/try_again"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/syncFailedTv">
-
-            <ImageView
-                android:layout_width="@dimen/refresh_ic_size"
-                android:layout_height="@dimen/refresh_ic_size"
-                android:layout_marginLeft="@dimen/short_padding"
-                app:layout_constraintDimensionRatio="H,1:1"
-                app:srcCompat="@drawable/ic_refresh" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/short_margin"
-                android:layout_marginRight="@dimen/short_margin"
-                android:text="@string/try_again"
-                android:textAppearance="@style/little_button_text" />
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/syncFailedTv"
+            style="@style/little_icon_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

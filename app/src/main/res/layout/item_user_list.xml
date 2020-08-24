@@ -21,7 +21,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:cardCornerRadius="40dp"
+            app:cardCornerRadius="@dimen/cardview_user_corner_radius"
             android:layout_centerHorizontal="true"
             android:innerRadius="0dp"
             android:shape="ring"

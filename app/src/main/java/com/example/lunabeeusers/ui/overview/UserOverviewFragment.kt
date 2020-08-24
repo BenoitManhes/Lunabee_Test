@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -141,11 +142,10 @@ class UserOverviewFragment : Fragment() {
     private fun updateStatutUi(statut: Statut) {
         val nothingToShow = (viewModel.userList.value == null)
 
-        binding.spinner.visibility =
-            if (!binding.swiperefresh.isRefreshing && statut.equals(Statut.LOADING)) View.VISIBLE else View.GONE
-        binding.syncFailedIv.visibility = if (nothingToShow && statut.equals(Statut.ERROR)) View.VISIBLE else View.GONE
-        binding.syncFailedTv.visibility = if (nothingToShow && statut.equals(Statut.ERROR)) View.VISIBLE else View.GONE
-        binding.tryAgain.visibility = if (nothingToShow && statut.equals(Statut.ERROR)) View.VISIBLE else View.GONE
+        binding.spinner.isVisible = !binding.swiperefresh.isRefreshing && statut.equals(Statut.LOADING)
+        binding.syncFailedIv.isVisible = nothingToShow && statut.equals(Statut.ERROR)
+        binding.syncFailedTv.isVisible = nothingToShow && statut.equals(Statut.ERROR)
+        binding.tryAgain.isVisible = nothingToShow && statut.equals(Statut.ERROR)
 
         if (!nothingToShow && statut.equals(Statut.ERROR)) {
             showSnackBar(R.string.sync_failed)

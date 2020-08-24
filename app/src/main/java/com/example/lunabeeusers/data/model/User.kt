@@ -26,7 +26,7 @@ data class User(
     override fun bindView(binding: ItemUserListBinding, payloads: List<Any>) {
         binding.firstnameTv.text = firstname
         binding.lastnameTv.text = lastname
-        loadImageFromUrl(binding.userAvatarIv, imgSrcUrl)
+        binding.userAvatarIv.loadImageFromUrl(imgSrcUrl)
     }
 
     override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): ItemUserListBinding {

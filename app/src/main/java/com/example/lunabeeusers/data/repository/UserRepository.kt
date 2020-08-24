@@ -9,11 +9,6 @@ class UserRepository @Inject constructor(
 ) {
 
     suspend fun getUsers(): List<User> {
-        try {
-            val result = client.getUsers()
-            return result
-        } catch (cause: Throwable) {
-            throw cause
-        }
+        return client.getUsers()
     }
 }
