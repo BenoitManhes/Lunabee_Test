@@ -12,7 +12,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class User(
-    @Json(name = "id") val id: Double,
+    @Json(name = "id") val id: Long,
     @Json(name = "first_name") val firstname: String,
     @Json(name = "last_name") val lastname: String,
     @Json(name = "email") val email: String,
@@ -22,6 +22,8 @@ data class User(
 
     override val type: Int
         get() = R.id.fastadapter_item
+
+    override var identifier: Long = id
 
     override fun bindView(binding: ItemUserListBinding, payloads: List<Any>) {
         binding.firstnameTv.text = firstname

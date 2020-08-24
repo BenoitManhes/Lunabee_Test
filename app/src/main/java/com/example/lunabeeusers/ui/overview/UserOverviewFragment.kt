@@ -21,7 +21,10 @@ import com.example.lunabeeusers.utils.MarginItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
+import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
+import com.mikepenz.fastadapter.dsl.itemAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class UserOverviewFragment : Fragment() {
@@ -114,7 +117,7 @@ class UserOverviewFragment : Fragment() {
         // Observing userList from viewModel
         viewModel.userList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                itemAdapter.set(it)
+                FastAdapterDiffUtil[itemAdapter] = it
             }
         })
 

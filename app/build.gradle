@@ -57,6 +57,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
     implementation "com.mikepenz:fastadapter:$version_fast_adapter"
     implementation "com.mikepenz:fastadapter-extensions-binding:$version_fast_adapter"
+    implementation "com.mikepenz:fastadapter-extensions-diff:$version_fast_adapter"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$version_navigation"
