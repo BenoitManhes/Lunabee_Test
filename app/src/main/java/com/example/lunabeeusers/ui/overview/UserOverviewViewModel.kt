@@ -4,11 +4,9 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.lunabeeusers.data.model.User
 import com.example.lunabeeusers.data.repository.UserRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class UserOverviewViewModel @ViewModelInject constructor(
@@ -34,10 +32,6 @@ class UserOverviewViewModel @ViewModelInject constructor(
     val searchTerm: LiveData<String>
         get() = _searchTerm
 
-    // Coroutines
-    private var viewModelJob = Job()
-    private var coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-
     init {
         getUsersFromApi()
     }
@@ -59,7 +53,7 @@ class UserOverviewViewModel @ViewModelInject constructor(
     }
 
     private fun getUsersFromApi() {
-        coroutineScope.launch {
+        viewModelScope.launch {
             try {
                 _statut.value = Statut.LOADING
                 var listResult = repository.getUsers()
@@ -71,11 +65,6 @@ class UserOverviewViewModel @ViewModelInject constructor(
                 _statut.value = Statut.ERROR
             }
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 
     enum class Statut {
