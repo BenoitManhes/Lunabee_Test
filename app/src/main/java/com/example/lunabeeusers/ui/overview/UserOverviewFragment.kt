@@ -13,6 +13,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lunabeeusers.R
 import com.example.lunabeeusers.data.model.User
 import com.example.lunabeeusers.databinding.UserOverviewFragmentBinding
@@ -20,18 +22,21 @@ import com.example.lunabeeusers.ui.overview.UserOverviewViewModel.Statut
 import com.example.lunabeeusers.utils.MarginItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.GenericItem
+import com.mikepenz.fastadapter.adapters.FastItemAdapter
+import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
+import com.mikepenz.fastadapter.listeners.ItemFilterListener
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class UserOverviewFragment : Fragment() {
+class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
 
     private val viewModel: UserOverviewViewModel by viewModels()
     private lateinit var binding: UserOverviewFragmentBinding
-    private lateinit var fastAdapter: FastAdapter<User>
-    private val itemAdapter = ItemAdapter<User>()
+    private lateinit var fastItemAdapter: GenericFastItemAdapter
     private lateinit var searchView: SearchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -88,9 +93,26 @@ class UserOverviewFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        fastAdapter = FastAdapter.with(itemAdapter)
 
-        binding.usersRv.adapter = fastAdapter
+        //create fastAdapter which will manage everything
+        fastItemAdapter = FastItemAdapter()
+
+        //configure the filter
+        fastItemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
+            if (item is User) {
+                //return true if we should filter it out
+                item.isConcernedByTerm(constraint.toString())
+            } else {
+                //return false to keep it
+                false
+            }
+        }
+        fastItemAdapter.itemFilter.itemFilterListener = this
+
+        // Setup RecyclerView
+        binding.usersRv.adapter = fastItemAdapter
+        binding.usersRv.layoutManager = LinearLayoutManager(context)
+        binding.usersRv.itemAnimator = DefaultItemAnimator()
         // Add Decorator to RecyclerView
         binding.usersRv.addItemDecoration(
             MarginItemDecoration(
@@ -116,7 +138,7 @@ class UserOverviewFragment : Fragment() {
         // Observing userList from viewModel
         viewModel.userList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                FastAdapterDiffUtil[itemAdapter] = it
+                FastAdapterDiffUtil[fastItemAdapter.itemAdapter] = it
                 updateFilter(viewModel.searchTerm.value)
             }
         })
@@ -160,13 +182,7 @@ class UserOverviewFragment : Fragment() {
      * Handle ui element visibility according to filtering result
      */
     private fun updateFilteringUi() {
-        // Filtering elements
-        val isfilterResultListEmpty = itemAdapter.itemList.isEmpty
-        val isfilterResultEmpty = itemAdapter.adapterItems.isEmpty()
-        Timber.d("isfilter itemList Empty: ${isfilterResultListEmpty}")
-        Timber.d("itemList size: ${itemAdapter.itemList.size()}")
-        Timber.d("isfilter adapterItems Empty: ${isfilterResultEmpty}")
-        Timber.d("adapterItems size: ${itemAdapter.adapterItems.size}")
+        val isfilterResultEmpty = fastItemAdapter.itemCount == 0
         binding.noResultIv.isVisible = isfilterResultEmpty
         binding.noResultText.isVisible = isfilterResultEmpty
     }
@@ -179,12 +195,16 @@ class UserOverviewFragment : Fragment() {
 
     private fun updateFilter(term: String?) {
         term?.let {
-            itemAdapter.filter(term)
-            itemAdapter.itemFilter.filterPredicate = { user: User, constraint: CharSequence? ->
-                user.isConcernedByTerm(constraint.toString())
-            }
+            fastItemAdapter.filter(it)
         }
+    }
+
+    override fun itemsFiltered(constraint: CharSequence?, results: List<GenericItem>?) {
         updateFilteringUi()
+    }
+
+    override fun onReset() {
+
     }
 
 }
