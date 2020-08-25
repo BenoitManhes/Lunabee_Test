@@ -34,8 +34,8 @@ class UserOverviewViewModel @ViewModelInject constructor(
 
     // Navigation
     private var _navigateToSleepDetail = MutableLiveData<User>()
-        get() = _navigateToSleepDetail
     val navigateToSleepDetail: LiveData<User>
+        get() = _navigateToSleepDetail
 
     init {
         getUsersFromApi()

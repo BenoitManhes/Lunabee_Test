@@ -50,7 +50,7 @@ class DetailFragment : Fragment() {
         binding.textView.text = user.firstname + " " + user.lastname
         binding.emailTv.text = user.email
         binding.genreTv.text = user.gender
-        loadImageFromUrl(binding.userAvatarIv, user.imgSrcUrl)
+        binding.userAvatarIv.loadImageFromUrl(user.imgSrcUrl)
     }
 
 }

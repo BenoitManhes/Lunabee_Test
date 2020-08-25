@@ -100,9 +100,33 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
     }
 
     private fun setupRecyclerView() {
-        fastAdapter = FastAdapter.with(itemAdapter)
+        //create fastAdapter which will manage everything
+        fastItemAdapter = FastItemAdapter()
 
-        binding.usersRv.adapter = fastAdapter
+        //set fastAdapter onClickListener
+        fastItemAdapter.onClickListener = { _, _, item, _ ->
+            if (item is User) {
+                viewModel.onUserCliked(item)
+            }
+            false
+        }
+
+        //configure the filter
+        fastItemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
+            if (item is User) {
+                //return true if we should filter it out
+                item.isConcernedByTerm(constraint.toString())
+            } else {
+                //return false to keep it
+                false
+            }
+        }
+        fastItemAdapter.itemFilter.itemFilterListener = this
+
+        // Setup RecyclerView
+        binding.usersRv.adapter = fastItemAdapter
+        binding.usersRv.layoutManager = LinearLayoutManager(context)
+        binding.usersRv.itemAnimator = DefaultItemAnimator()
         // Add Decorator to RecyclerView
         binding.usersRv.addItemDecoration(
             MarginItemDecoration(
@@ -143,6 +167,16 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         // Observing search term
         viewModel.searchTerm.observe(viewLifecycleOwner, Observer {
             updateFilter(it)
+        })
+
+        // Observing navigation
+        viewModel.navigateToSleepDetail.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                this.findNavController().navigate(UserOverviewFragmentDirections
+                    .actionUserOverviewFragmentToDetailFragment(it))
+
+                viewModel.doneSleepDetailNavigatided()
+            }
         })
     }
 
