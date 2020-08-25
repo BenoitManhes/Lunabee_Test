@@ -184,6 +184,7 @@ class UserOverviewFragment : Fragment() {
                 user.isConcernedByTerm(constraint.toString())
             }
         }
+        updateFilteringUi()
     }
 
 }
