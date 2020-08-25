@@ -15,6 +15,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.onNavDestinationSelected
 import com.example.lunabeeusers.R
 import com.example.lunabeeusers.data.model.User
 import com.example.lunabeeusers.databinding.UserOverviewFragmentBinding
@@ -63,6 +65,11 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return item.onNavDestinationSelected(findNavController()) ||
+            super.onOptionsItemSelected(item)
+    }
+
     private fun setupSearchView(item: MenuItem) {
         // Setup searchItem expansion
         item.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
@@ -93,9 +100,16 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
     }
 
     private fun setupRecyclerView() {
-
         //create fastAdapter which will manage everything
         fastItemAdapter = FastItemAdapter()
+
+        //set fastAdapter onClickListener
+        fastItemAdapter.onClickListener = { _, _, item, _ ->
+            if (item is User) {
+                viewModel.onUserCliked(item)
+            }
+            false
+        }
 
         //configure the filter
         fastItemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
@@ -155,6 +169,15 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
             updateFilter(it)
         })
 
+        // Observing navigation
+        viewModel.navigateToSleepDetail.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                this.findNavController().navigate(UserOverviewFragmentDirections
+                    .actionUserOverviewFragmentToDetailFragment(it))
+
+                viewModel.doneSleepDetailNavigatided()
+            }
+        })
     }
 
     /**

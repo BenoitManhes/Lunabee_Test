@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
     app:startDestination="@id/userOverviewFragment">
 
     <fragment
         android:id="@+id/userOverviewFragment"
         android:name="com.example.lunabeeusers.ui.overview.UserOverviewFragment"
-        android:label="UserOverviewFragment" />
+        android:label="@string/fragment_overview_label"
+        tools:layout="@layout/user_overview_fragment">
+        <action
+            android:id="@+id/action_userOverviewFragment_to_detailFragment"
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.lunabeeusers.ui.detail.DetailFragment"
+        android:label="@string/fragment_detail_label"
+        tools:layout="@layout/detail_fragment">
+        <argument
+            android:name="user"
+            app:argType="com.example.lunabeeusers.data.model.User" />
+    </fragment>
 </navigation>
