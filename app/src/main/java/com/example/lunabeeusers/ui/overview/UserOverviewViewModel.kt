@@ -14,10 +14,10 @@ class UserOverviewViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     // The internal MutableLiveData List<User> that stores the users return by the API
-    private val _usersList = MutableLiveData<List<User>>()
+    private val _usersList = MutableLiveData<ArrayList<User>>()
 
     // External MutableLiveData List<User> used to diplay users
-    val userList: LiveData<List<User>>
+    val userList: LiveData<ArrayList<User>>
         get() = _usersList
 
     private val _statut = MutableLiveData<Statut>()
@@ -38,11 +38,19 @@ class UserOverviewViewModel @ViewModelInject constructor(
         get() = _navigateToSleepDetail
 
     init {
-        getUsersFromApi()
+        resetUserList()
     }
 
     fun refreshData() {
-        getUsersFromApi()
+        resetUserList()
+    }
+
+    /**
+     * Reset users List and load first page
+     */
+    fun resetUserList() {
+        _usersList.value = null
+        getUsersPageFromApi(0)
     }
 
     fun searchUser(searchTerm: String?) {
@@ -70,7 +78,7 @@ class UserOverviewViewModel @ViewModelInject constructor(
             try {
                 _statut.value = Statut.LOADING
                 var listResult = repository.getUsers()
-                _usersList.value = listResult
+                _usersList.value = listResult as ArrayList<User>
                 _statut.value = Statut.SUCCESS
 
             } catch (t: Throwable) {
@@ -78,6 +86,26 @@ class UserOverviewViewModel @ViewModelInject constructor(
                 _statut.value = Statut.ERROR
             }
         }
+    }
+
+    fun getUsersPageFromApi(page: Int) {
+        viewModelScope.launch {
+            try {
+                _statut.value = Statut.LOADING
+                var listResult = repository.getUsersPage(page)
+                _usersList += listResult
+                _statut.value = Statut.SUCCESS
+            } catch (t: Throwable) {
+                _statut.value = Statut.ERROR
+                t.printStackTrace()
+            }
+        }
+    }
+
+    operator fun <T> MutableLiveData<ArrayList<T>>.plusAssign(values: List<T>) {
+        val value = this.value ?: arrayListOf()
+        value.addAll(values)
+        this.value = value
     }
 
     enum class Statut {
