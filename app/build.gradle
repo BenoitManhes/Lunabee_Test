@@ -1,9 +1,9 @@
-
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs"
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion 29
@@ -15,12 +15,14 @@ android {
 
     defaultConfig {
         applicationId "com.example.lunabeeusers"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+
     }
 
     buildTypes {
@@ -41,7 +43,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
@@ -53,9 +54,11 @@ dependencies {
     // UI
     implementation "androidx.constraintlayout:constraintlayout:$version_constraint_layout"
     implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
-
-    //Lifecycle
-    implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle_extensions"
+    implementation "com.mikepenz:fastadapter:$version_fast_adapter"
+    implementation "com.mikepenz:fastadapter-extensions-binding:$version_fast_adapter"
+    implementation "com.mikepenz:fastadapter-extensions-diff:$version_fast_adapter"
+    implementation "com.mikepenz:fastadapter-extensions-ui:$version_fast_adapter"
+    implementation "com.mikepenz:fastadapter-extensions-utils:$version_fast_adapter"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$version_navigation"
@@ -68,7 +71,6 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit: $version_retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
-    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$version_retrofit_coroutines_adapter"
 
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
@@ -79,5 +81,11 @@ dependencies {
 
     // Timber
     implementation "com.jakewharton.timber:timber:$version_timber"
+
+    //Hilt
+    implementation "com.google.dagger:hilt-android:$version_hilt_android"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02"
+    kapt "com.google.dagger:hilt-android-compiler:$version_hilt_android"
+    kapt "androidx.hilt:hilt-compiler:1.0.0-alpha02"
 
 }

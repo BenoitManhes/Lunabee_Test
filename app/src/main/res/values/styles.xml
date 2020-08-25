@@ -9,9 +9,33 @@
     </style>
 
     <style name="textview_user_item" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:fontFamily">@font/heebo_light</item>
-        <item name="android:textColor">@color/purple_dark</item>
+        <item name="android:fontFamily">@font/palanquin_medium</item>
+        <item name="android:textColor">@color/colorBackgroundDark</item>
         <item name="android:textSize">@dimen/item_text_size</item>
+    </style>
+
+    <style name="textview_error" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">@font/heebo_light</item>
+        <item name="android:textColor">@color/colorBackgroundLight</item>
+        <item name="android:textSize">@dimen/error_text_size</item>
+    </style>
+
+    <style name="little_button_text" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">@font/heebo_light</item>
+        <item name="android:textColor">@color/colorBackgroundDark</item>
+        <item name="android:textSize">@dimen/error_text_size</item>
+    </style>
+
+    <style name="little_icon_button">
+        <item name="android:minHeight">@dimen/button_min_size</item>
+        <item name="android:minWidth">@dimen/button_min_size</item>
+        <item name="android:paddingTop">@dimen/button_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/button_vertical_padding</item>
+        <item name="android:paddingLeft">@dimen/button_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/button_horizontal_padding</item>
+        <item name="android:drawablePadding">@dimen/button_icon_padding</item>
+        <item name="android:background">@drawable/round_corner_background</item>
+        <item name="android:textAppearance">@style/little_button_text</item>
     </style>
 
 </resources>

@@ -4,4 +4,19 @@
     <dimen name="short_margin">8dp</dimen>
     <dimen name="avatar_preview_size">50dp</dimen>
     <dimen name="item_text_size">18sp</dimen>
+    <dimen name="margin_top_spinner">40dp</dimen>
+    <dimen name="cloud_img_size">150dp</dimen>
+    <dimen name="error_text_size">10sp</dimen>
+    <dimen name="short_padding">4dp</dimen>
+    <dimen name="large_margin">32dp</dimen>
+    <dimen name="refresh_ic_size">12dp</dimen>
+    <dimen name="item_spacing">4dp</dimen>
+    <dimen name="cardview_user_corner_radius">40dp</dimen>
+    <dimen name="button_vertical_padding">4dp</dimen>
+    <dimen name="button_horizontal_padding">8dp</dimen>
+    <dimen name="button_min_size">0dp</dimen>
+    <dimen name="button_icon_padding">4dp</dimen>
+    <dimen name="ic_refresh_size">12dp</dimen>
+    <dimen name="no_result_size">50dp</dimen>
+    <dimen name="no_result_margin">48dp</dimen>
 </resources>

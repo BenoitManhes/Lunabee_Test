@@ -1,17 +1,17 @@
 package com.example.lunabeeusers.ui.overview
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.lunabeeusers.data.model.User
-import com.example.lunabeeusers.data.network.UsersApi
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import com.example.lunabeeusers.data.repository.UserRepository
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
-class UserOverviewViewModel : ViewModel() {
+class UserOverviewViewModel @ViewModelInject constructor(
+    private val repository: UserRepository
+) : ViewModel() {
 
     // The internal MutableLiveData List<User> that stores the users return by the API
     private val _usersList = MutableLiveData<List<User>>()
@@ -20,32 +20,56 @@ class UserOverviewViewModel : ViewModel() {
     val userList: LiveData<List<User>>
         get() = _usersList
 
-    // Coroutines
-    private var viewModelJob = Job()
-    private var coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+    private val _statut = MutableLiveData<Statut>()
+
+    val statut: LiveData<Statut>
+        get() = _statut
+
+    // The internal MutableLiveData String that stores the search term to filter user
+    private val _searchTerm = MutableLiveData<String>()
+
+    // External MutableLiveData String used to filter users
+    val searchTerm: LiveData<String>
+        get() = _searchTerm
 
     init {
         getUsersFromApi()
     }
 
-    private fun getUsersFromApi() {
-        var getUsersDeferred = UsersApi.retrofitService.getUsers()
+    fun refreshData() {
+        getUsersFromApi()
+    }
 
-        coroutineScope.launch {
+    fun searchUser(searchTerm: String?) {
+        if (searchTerm == null) {
+            _searchTerm.value = ""
+        } else {
+            _searchTerm.value = searchTerm
+        }
+    }
+
+    fun clearUserFilter() {
+        _searchTerm.value = ""
+    }
+
+    private fun getUsersFromApi() {
+        viewModelScope.launch {
             try {
-                var listResult = getUsersDeferred.await()
-                Timber.i("Users Loaded with success")
+                _statut.value = Statut.LOADING
+                var listResult = repository.getUsers()
                 _usersList.value = listResult
+                _statut.value = Statut.SUCCESS
 
             } catch (t: Throwable) {
-                Timber.i("Fail to load users")
                 t.printStackTrace()
+                _statut.value = Statut.ERROR
             }
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
+    enum class Statut {
+        LOADING,
+        SUCCESS,
+        ERROR
     }
 }
