@@ -57,6 +57,7 @@ dependencies {
     implementation "com.mikepenz:fastadapter:$version_fast_adapter"
     implementation "com.mikepenz:fastadapter-extensions-binding:$version_fast_adapter"
     implementation "com.mikepenz:fastadapter-extensions-diff:$version_fast_adapter"
+    implementation "com.mikepenz:fastadapter-extensions-scroll:$version_fast_adapter"
     implementation "com.mikepenz:fastadapter-extensions-ui:$version_fast_adapter"
     implementation "com.mikepenz:fastadapter-extensions-utils:$version_fast_adapter"
 
