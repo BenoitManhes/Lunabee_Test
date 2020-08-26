@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.lunabeeusers.data.model.User
 import com.example.lunabeeusers.data.repository.UserRepository
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class UserOverviewViewModel @ViewModelInject constructor(
     private val repository: UserRepository
@@ -37,6 +38,8 @@ class UserOverviewViewModel @ViewModelInject constructor(
     val navigateToSleepDetail: LiveData<User>
         get() = _navigateToSleepDetail
 
+    private var pageToLoad: Int = 0
+
     init {
         resetUserList()
     }
@@ -49,8 +52,9 @@ class UserOverviewViewModel @ViewModelInject constructor(
      * Reset users List and load first page
      */
     fun resetUserList() {
+        pageToLoad = 0
         _usersList.value = null
-        getUsersPageFromApi(0)
+        getUsersPageFromApi()
     }
 
     fun searchUser(searchTerm: String?) {
@@ -88,11 +92,11 @@ class UserOverviewViewModel @ViewModelInject constructor(
         }
     }
 
-    fun getUsersPageFromApi(page: Int) {
+    fun getUsersPageFromApi() {
         viewModelScope.launch {
             try {
                 _statut.value = Statut.LOADING
-                var listResult = repository.getUsersPage(page)
+                var listResult = repository.getUsersPage(pageToLoad)
                 _usersList += listResult
                 _statut.value = Statut.SUCCESS
             } catch (t: Throwable) {
@@ -100,6 +104,12 @@ class UserOverviewViewModel @ViewModelInject constructor(
                 t.printStackTrace()
             }
         }
+    }
+
+    fun loadNextPage() {
+        pageToLoad += 1
+        Timber.i("loadNextPage(): ${pageToLoad}")
+        getUsersPageFromApi()
     }
 
     operator fun <T> MutableLiveData<ArrayList<T>>.plusAssign(values: List<T>) {

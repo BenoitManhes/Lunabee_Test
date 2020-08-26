@@ -21,15 +21,20 @@ import com.example.lunabeeusers.R
 import com.example.lunabeeusers.data.model.User
 import com.example.lunabeeusers.databinding.UserOverviewFragmentBinding
 import com.example.lunabeeusers.ui.overview.UserOverviewViewModel.Statut
+import com.example.lunabeeusers.utils.Constant
 import com.example.lunabeeusers.utils.MarginItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter
+import com.mikepenz.fastadapter.adapters.GenericItemAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
+import com.mikepenz.fastadapter.adapters.ItemAdapter.Companion.items
 import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
 import com.mikepenz.fastadapter.listeners.ItemFilterListener
+import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
+import com.mikepenz.fastadapter.ui.items.ProgressItem
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -39,6 +44,8 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
     private val viewModel: UserOverviewViewModel by viewModels()
     private lateinit var binding: UserOverviewFragmentBinding
     private lateinit var fastItemAdapter: GenericFastItemAdapter
+    private lateinit var footerAdapter: GenericItemAdapter
+    private lateinit var endlessScrollListener: EndlessRecyclerOnScrollListener
     private lateinit var searchView: SearchView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -80,6 +87,7 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
             // Remove filter when search action is collapsed
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
                 viewModel.clearUserFilter()
+                endlessScrollListener.enable()
                 return true
             }
         })
@@ -102,6 +110,10 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
     private fun setupRecyclerView() {
         //create fastAdapter which will manage everything
         fastItemAdapter = FastItemAdapter()
+
+        //create FooterAdapter which will manage the progress items
+        footerAdapter = items()
+        fastItemAdapter.addAdapter(1, footerAdapter)
 
         //set fastAdapter onClickListener
         fastItemAdapter.onClickListener = { _, _, item, _ ->
@@ -127,6 +139,18 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         binding.usersRv.adapter = fastItemAdapter
         binding.usersRv.layoutManager = LinearLayoutManager(context)
         binding.usersRv.itemAnimator = DefaultItemAnimator()
+
+        // onScroll listener
+        endlessScrollListener = object : EndlessRecyclerOnScrollListener() {
+            override fun onLoadMore(currentPage: Int) {
+                Timber.i("endlessScrollListener onLoadMore, page: ${currentPage}")
+                showProgressItemScrolling()
+                // Loading new items
+                viewModel.loadNextPage()
+            }
+        }
+        binding.usersRv.addOnScrollListener(endlessScrollListener)
+
         // Add Decorator to RecyclerView
         binding.usersRv.addItemDecoration(
             MarginItemDecoration(
@@ -152,6 +176,7 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         // Observing userList from viewModel
         viewModel.userList.observe(viewLifecycleOwner, Observer {
             it?.let {
+                Timber.i("Users list updated, size: ${fastItemAdapter.itemCount}")
                 FastAdapterDiffUtil[fastItemAdapter.itemAdapter] = it
                 updateFilter(viewModel.searchTerm.value)
             }
@@ -222,12 +247,26 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         }
     }
 
+    /**
+     * Show a progressItem at the end to display the next page loading
+     */
+    private fun showProgressItemScrolling() {
+        footerAdapter.clear()
+        val progressItem = ProgressItem()
+        progressItem.isEnabled = false
+        footerAdapter.add(ProgressItem())
+
+    }
+
     override fun itemsFiltered(constraint: CharSequence?, results: List<GenericItem>?) {
+        footerAdapter.clear()
+        endlessScrollListener.disable()
+
+        Timber.i("itemsFiltered, results.size: ${results!!.size}")
+
         updateFilteringUi()
     }
 
-    override fun onReset() {
-
-    }
+    override fun onReset() {}
 
 }
