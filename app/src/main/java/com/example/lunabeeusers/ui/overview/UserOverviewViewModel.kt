@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lunabeeusers.data.model.User
 import com.example.lunabeeusers.data.repository.UserRepository
+import com.example.lunabeeusers.utils.Constant
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -94,7 +95,7 @@ class UserOverviewViewModel @ViewModelInject constructor(
     }
 
     fun loadNextPage() {
-        pageToLoad += 1
+        pageToLoad = _usersList.value?.size?.div(Constant.PAGE_SIZE) ?: 0
         Timber.i("loadNextPage(): ${pageToLoad}")
         getUsersPageFromApi()
     }
