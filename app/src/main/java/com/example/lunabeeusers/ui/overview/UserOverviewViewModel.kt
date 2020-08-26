@@ -7,17 +7,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lunabeeusers.data.model.User
 import com.example.lunabeeusers.data.repository.UserRepository
+import com.example.lunabeeusers.utils.Constant
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class UserOverviewViewModel @ViewModelInject constructor(
     private val repository: UserRepository
 ) : ViewModel() {
 
     // The internal MutableLiveData List<User> that stores the users return by the API
-    private val _usersList = MutableLiveData<List<User>>()
+    private val _usersList = MutableLiveData<ArrayList<User>>()
 
     // External MutableLiveData List<User> used to diplay users
-    val userList: LiveData<List<User>>
+    val userList: LiveData<ArrayList<User>>
         get() = _usersList
 
     private val _statut = MutableLiveData<Statut>()
@@ -32,12 +34,23 @@ class UserOverviewViewModel @ViewModelInject constructor(
     val searchTerm: LiveData<String>
         get() = _searchTerm
 
+    private var pageToLoad: Int = 0
+
     init {
-        getUsersFromApi()
+        resetUserList()
     }
 
     fun refreshData() {
-        getUsersFromApi()
+        resetUserList()
+    }
+
+    /**
+     * Reset users List and load first page
+     */
+    fun resetUserList() {
+        pageToLoad = 0
+        _usersList.value = null
+        getUsersPageFromApi()
     }
 
     fun searchUser(searchTerm: String?) {
@@ -57,7 +70,7 @@ class UserOverviewViewModel @ViewModelInject constructor(
             try {
                 _statut.value = Statut.LOADING
                 var listResult = repository.getUsers()
-                _usersList.value = listResult
+                _usersList.value = listResult as ArrayList<User>
                 _statut.value = Statut.SUCCESS
 
             } catch (t: Throwable) {
@@ -65,6 +78,32 @@ class UserOverviewViewModel @ViewModelInject constructor(
                 _statut.value = Statut.ERROR
             }
         }
+    }
+
+    fun getUsersPageFromApi() {
+        viewModelScope.launch {
+            try {
+                _statut.value = Statut.LOADING
+                var listResult = repository.getUsersPage(pageToLoad)
+                _usersList += listResult
+                _statut.value = Statut.SUCCESS
+            } catch (t: Throwable) {
+                _statut.value = Statut.ERROR
+                t.printStackTrace()
+            }
+        }
+    }
+
+    fun loadNextPage() {
+        pageToLoad = _usersList.value?.size?.div(Constant.PAGE_SIZE) ?: 0
+        Timber.i("loadNextPage(): ${pageToLoad}")
+        getUsersPageFromApi()
+    }
+
+    operator fun <T> MutableLiveData<ArrayList<T>>.plusAssign(values: List<T>) {
+        val value = this.value ?: arrayListOf()
+        value.addAll(values)
+        this.value = value
     }
 
     enum class Statut {

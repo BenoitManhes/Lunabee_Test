@@ -19,4 +19,7 @@
     <dimen name="ic_refresh_size">12dp</dimen>
     <dimen name="no_result_size">50dp</dimen>
     <dimen name="no_result_margin">48dp</dimen>
+    <dimen name="separator_size">1dp</dimen>
+    <dimen name="detail_text_title">30sp</dimen>
+    <dimen name="cardview_user_detail_corner_radius">200</dimen>
 </resources>
