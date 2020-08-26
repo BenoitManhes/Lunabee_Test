@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.UiThread
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -19,6 +20,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import com.example.lunabeeusers.R
 import com.example.lunabeeusers.data.model.User
+import com.example.lunabeeusers.data.model.UserItem
 import com.example.lunabeeusers.databinding.UserOverviewFragmentBinding
 import com.example.lunabeeusers.ui.overview.UserOverviewViewModel.Statut
 import com.example.lunabeeusers.utils.MarginItemDecoration
@@ -114,15 +116,15 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
 
         //set fastAdapter onClickListener
         fastItemAdapter.onClickListener = { _, _, item, _ ->
-            if (item is User) {
-                navigateToDetailUser(item)
+            if (item is UserItem) {
+                navigateToDetailUser(item.user)
             }
             false
         }
 
         //configure the filter
         fastItemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
-            if (item is User) {
+            if (item is UserItem) {
                 //return true if we should filter it out
                 item.isConcernedByTerm(constraint.toString())
             } else {
@@ -173,8 +175,7 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         // Observing userList from viewModel
         viewModel.userList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                Timber.i("Users list updated, size: ${fastItemAdapter.itemCount}")
-                FastAdapterDiffUtil[fastItemAdapter.itemAdapter] = it
+                setUserItem(it)
                 updateFilter(viewModel.searchTerm.value)
             }
         })
@@ -222,6 +223,20 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         binding.noResultText.isVisible = isfilterResultEmpty
     }
 
+    /**
+     * Handle highlinghting of the text matching with filter term
+     */
+    private fun updateFilterHighLighting() {
+        val term = viewModel.searchTerm.value
+        for (item: GenericItem in fastItemAdapter.itemAdapter.itemList.items) {
+            if (item is UserItem) {
+                item.highlightTerm = term!!
+            }
+        }
+
+        fastItemAdapter.notifyDataSetChanged()
+    }
+
     private fun showSnackBar(messageSrc: Int) {
         val snackbar = Snackbar.make(binding.root, messageSrc, Snackbar.LENGTH_SHORT)
         snackbar.view.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBackgroundDark))
@@ -230,7 +245,9 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
 
     private fun updateFilter(term: String?) {
         term?.let {
+            Timber.d("updateFilter: >${term}<")
             fastItemAdapter.filter(it)
+            updateFilterHighLighting()
         }
     }
 
@@ -249,9 +266,8 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         footerAdapter.clear()
         endlessScrollListener.disable()
 
-        Timber.i("itemsFiltered, results.size: ${results!!.size}")
-
         updateFilteringUi()
+        updateFilterHighLighting()
     }
 
     override fun onReset() {}
@@ -263,6 +279,22 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
     private fun navigateToDetailUser(user: User) {
         this.findNavController().navigate(UserOverviewFragmentDirections
             .actionUserOverviewFragmentToDetailFragment(user))
+    }
+
+    /**
+     * Convert a User list in UserItem list and fill the itemAdapter
+     *
+     * @param userList User list to diplay in the recyclerView
+     */
+    private fun setUserItem(userList: ArrayList<User>) {
+        // Creating the UserItems
+        val userItemList = ArrayList<UserItem>()
+        for (user: User in userList) {
+            userItemList.add(UserItem(user))
+        }
+
+        // Add UserItems in the itemAdapter with DiffUtil
+        FastAdapterDiffUtil[fastItemAdapter.itemAdapter] = userItemList
     }
 
 }
