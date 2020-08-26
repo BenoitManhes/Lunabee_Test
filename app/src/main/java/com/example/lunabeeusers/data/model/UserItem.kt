@@ -20,15 +20,14 @@ class UserItem(val user: User) : AbstractItem<UserItem.UserViewHolder>() {
     override val layoutRes: Int
         get() = R.layout.item_user_list
 
-    lateinit var userViewHolder: UserViewHolder
+    var highlightTerm: String = ""
 
     fun isConcernedByTerm(term: String): Boolean =
         (user.firstname + " " + user.lastname).contains(term, ignoreCase = true) ||
             (user.lastname + " " + user.firstname).contains(term, ignoreCase = true)
 
     override fun getViewHolder(v: View): UserViewHolder {
-        userViewHolder = UserViewHolder(v)
-        return userViewHolder
+        return UserViewHolder(v)
     }
 
     /**
@@ -44,6 +43,7 @@ class UserItem(val user: User) : AbstractItem<UserItem.UserViewHolder>() {
             firstnameTv.text = item.user.firstname
             lastnameTv.text = item.user.lastname
             userAvatarIv.loadImageFromUrl(item.user.imgSrcUrl)
+            hightLihgtTerm(item.highlightTerm)
         }
 
         override fun unbindView(item: UserItem) {

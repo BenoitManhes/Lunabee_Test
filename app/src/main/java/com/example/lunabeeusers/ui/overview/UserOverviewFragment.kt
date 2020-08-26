@@ -174,7 +174,6 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         // Observing userList from viewModel
         viewModel.userList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                Timber.i("Users list updated, size: ${fastItemAdapter.itemCount}")
                 setUserItem(it)
                 updateFilter(viewModel.searchTerm.value)
             }
@@ -228,11 +227,9 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
      */
     private fun updateFilterHighLighting() {
         val term = viewModel.searchTerm.value
-        for (item: GenericItem in fastItemAdapter.itemAdapter.adapterItems) {
+        for (item: GenericItem in fastItemAdapter.itemAdapter.itemList.items) {
             if (item is UserItem) {
-                item.userViewHolder?.let {
-                    it.hightLihgtTerm(term!!)
-                }
+                item.highlightTerm = term!!
             }
         }
 
@@ -266,13 +263,14 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         footerAdapter.clear()
         endlessScrollListener.disable()
 
-        Timber.i("itemsFiltered, results.size: ${results!!.size}")
-
         updateFilteringUi()
-        //        updateFilterHighLighting()
+        updateFilterHighLighting()
     }
 
-    override fun onReset() {}
+    override fun onReset() {
+        updateFilteringUi()
+        updateFilterHighLighting()
+    }
 
     /**
      * Show fragment detail of user to display
