@@ -1,7 +1,9 @@
 package com.example.lunabeeusers.utils
 
+import android.graphics.Typeface.BOLD
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.text.clearSpans
@@ -20,6 +22,7 @@ fun TextView.highlighTerm(wordPrefix: String) {
     if (startIndex != -1) {
         val result = SpannableString(text)
         result.setSpan(ForegroundColorSpan(highlightColor), startIndex, stopIndex, 0)
+        result.setSpan(StyleSpan(BOLD), startIndex, stopIndex, 0)
         text = result
     }
 }

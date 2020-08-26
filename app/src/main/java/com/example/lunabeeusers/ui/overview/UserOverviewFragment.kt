@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.UiThread
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -244,7 +245,9 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
 
     private fun updateFilter(term: String?) {
         term?.let {
+            Timber.d("updateFilter: >${term}<")
             fastItemAdapter.filter(it)
+            updateFilterHighLighting()
         }
     }
 
@@ -267,10 +270,7 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         updateFilterHighLighting()
     }
 
-    override fun onReset() {
-        updateFilteringUi()
-        updateFilterHighLighting()
-    }
+    override fun onReset() {}
 
     /**
      * Show fragment detail of user to display
