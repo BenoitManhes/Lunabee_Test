@@ -1,16 +1,12 @@
 package com.example.lunabeeusers.data.model
 
 import android.os.Parcelable
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.lunabeeusers.R
-import com.example.lunabeeusers.databinding.ItemUserListBinding
 import com.example.lunabeeusers.utils.loadImageFromUrl
 import com.mikepenz.fastadapter.FastAdapter
-import com.mikepenz.fastadapter.binding.AbstractBindingItem
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize

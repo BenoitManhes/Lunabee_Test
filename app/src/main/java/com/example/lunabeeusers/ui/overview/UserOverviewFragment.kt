@@ -21,15 +21,12 @@ import com.example.lunabeeusers.R
 import com.example.lunabeeusers.data.model.User
 import com.example.lunabeeusers.databinding.UserOverviewFragmentBinding
 import com.example.lunabeeusers.ui.overview.UserOverviewViewModel.Statut
-import com.example.lunabeeusers.utils.Constant
 import com.example.lunabeeusers.utils.MarginItemDecoration
 import com.google.android.material.snackbar.Snackbar
-import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
-import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter.Companion.items
 import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
 import com.mikepenz.fastadapter.listeners.ItemFilterListener
@@ -118,7 +115,7 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         //set fastAdapter onClickListener
         fastItemAdapter.onClickListener = { _, _, item, _ ->
             if (item is User) {
-                viewModel.onUserCliked(item)
+                navigateToDetailUser(item)
             }
             false
         }
@@ -193,16 +190,6 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         viewModel.searchTerm.observe(viewLifecycleOwner, Observer {
             updateFilter(it)
         })
-
-        // Observing navigation
-        viewModel.navigateToSleepDetail.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                this.findNavController().navigate(UserOverviewFragmentDirections
-                    .actionUserOverviewFragmentToDetailFragment(it))
-
-                viewModel.doneSleepDetailNavigatided()
-            }
-        })
     }
 
     /**
@@ -268,5 +255,14 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
     }
 
     override fun onReset() {}
+
+    /**
+     * Show fragment detail of user to display
+     * @param user User to diplay in detail
+     */
+    private fun navigateToDetailUser(user: User) {
+        this.findNavController().navigate(UserOverviewFragmentDirections
+            .actionUserOverviewFragmentToDetailFragment(user))
+    }
 
 }
