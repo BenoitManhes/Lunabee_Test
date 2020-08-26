@@ -47,7 +47,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun bindUser(user: User) {
-        binding.textView.text = user.firstname + " " + user.lastname
+        binding.nameTv.text = user.firstname + " " + user.lastname
         binding.emailTv.text = user.email
         binding.genreTv.text = user.gender
         binding.userAvatarIv.loadImageFromUrl(user.imgSrcUrl)
