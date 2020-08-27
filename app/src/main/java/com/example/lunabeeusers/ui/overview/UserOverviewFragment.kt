@@ -7,7 +7,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.UiThread
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -22,8 +21,8 @@ import com.example.lunabeeusers.R
 import com.example.lunabeeusers.data.model.User
 import com.example.lunabeeusers.data.model.UserItem
 import com.example.lunabeeusers.databinding.UserOverviewFragmentBinding
-import com.example.lunabeeusers.ui.overview.UserOverviewViewModel.Statut
 import com.example.lunabeeusers.utils.MarginItemDecoration
+import com.example.lunabeeusers.utils.Resource.Status
 import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
@@ -196,20 +195,20 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
     /**
      * Handle ui element visibility according to statut
      */
-    private fun updateStatutUi(statut: Statut) {
+    private fun updateStatutUi(statut: Status) {
         val nothingToShow = (viewModel.userList.value == null)
 
         // Synchronization elements
-        binding.spinner.isVisible = !binding.swiperefresh.isRefreshing && statut.equals(Statut.LOADING)
-        binding.syncFailedIv.isVisible = nothingToShow && statut.equals(Statut.ERROR)
-        binding.syncFailedTv.isVisible = nothingToShow && statut.equals(Statut.ERROR)
-        binding.tryAgain.isVisible = nothingToShow && statut.equals(Statut.ERROR)
+        binding.spinner.isVisible = !binding.swiperefresh.isRefreshing && statut.equals(Status.LOADING)
+        binding.syncFailedIv.isVisible = nothingToShow && statut.equals(Status.ERROR)
+        binding.syncFailedTv.isVisible = nothingToShow && statut.equals(Status.ERROR)
+        binding.tryAgain.isVisible = nothingToShow && statut.equals(Status.ERROR)
 
-        if (!nothingToShow && statut.equals(Statut.ERROR)) {
+        if (!nothingToShow && statut.equals(Status.ERROR)) {
             showSnackBar(R.string.sync_failed)
         }
 
-        if (!statut.equals(Statut.LOADING)) {
+        if (!statut.equals(Status.LOADING)) {
             binding.swiperefresh.isRefreshing = false
         }
     }
