@@ -8,6 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.lunabeeusers.data.model.User
 import com.example.lunabeeusers.data.repository.UserRepository
 import com.example.lunabeeusers.utils.Constant
+import com.example.lunabeeusers.utils.Resource
+import com.example.lunabeeusers.utils.Resource.Status
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -22,9 +25,9 @@ class UserOverviewViewModel @ViewModelInject constructor(
     val userList: LiveData<ArrayList<User>>
         get() = _usersList
 
-    private val _statut = MutableLiveData<Statut>()
+    private val _statut = MutableLiveData<Status>()
 
-    val statut: LiveData<Statut>
+    val statut: LiveData<Status>
         get() = _statut
 
     // The internal MutableLiveData String that stores the search term to filter user
@@ -67,30 +70,29 @@ class UserOverviewViewModel @ViewModelInject constructor(
 
     private fun getUsersFromApi() {
         viewModelScope.launch {
-            try {
-                _statut.value = Statut.LOADING
-                var listResult = repository.getUsers()
-                _usersList.value = listResult as ArrayList<User>
-                _statut.value = Statut.SUCCESS
 
-            } catch (t: Throwable) {
-                t.printStackTrace()
-                _statut.value = Statut.ERROR
-            }
+            repository.getUsers()
+                .collect { resource: Resource<List<User>> ->
+                    when (resource.status) {
+                        Status.SUCCESS -> _usersList.value = resource.data as ArrayList<User>
+                        Status.ERROR -> Timber.d(resource.message)
+                    }
+                    _statut.value = resource.status
+                }
         }
     }
 
     fun getUsersPageFromApi() {
         viewModelScope.launch {
-            try {
-                _statut.value = Statut.LOADING
-                var listResult = repository.getUsersPage(pageToLoad)
-                _usersList += listResult
-                _statut.value = Statut.SUCCESS
-            } catch (t: Throwable) {
-                _statut.value = Statut.ERROR
-                t.printStackTrace()
-            }
+
+            repository.getUsersPage(pageToLoad)
+                .collect { resource: Resource<List<User>> ->
+                    when (resource.status) {
+                        Status.SUCCESS -> _usersList += resource.data!!
+                        Status.ERROR -> Timber.d(resource.message)
+                    }
+                    _statut.value = resource.status
+                }
         }
     }
 
@@ -104,11 +106,5 @@ class UserOverviewViewModel @ViewModelInject constructor(
         val value = this.value ?: arrayListOf()
         value.addAll(values)
         this.value = value
-    }
-
-    enum class Statut {
-        LOADING,
-        SUCCESS,
-        ERROR
     }
 }
