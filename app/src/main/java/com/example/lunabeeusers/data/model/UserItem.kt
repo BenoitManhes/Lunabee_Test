@@ -38,10 +38,12 @@ class UserItem(val user: User) : AbstractItem<UserItem.UserViewHolder>() {
         val firstnameTv: TextView = view.findViewById(R.id.firstnameTv)
         val lastnameTv: TextView = view.findViewById(R.id.lastnameTv)
         val userAvatarIv: ImageView = view.findViewById(R.id.userAvatarIv)
+        val genderTv: TextView = view.findViewById(R.id.genreTv)
 
         override fun bindView(item: UserItem, payloads: List<Any>) {
             firstnameTv.text = item.user.firstname
             lastnameTv.text = item.user.lastname
+            genderTv.text = item.user.gender
             userAvatarIv.loadImageFromUrl(item.user.imgSrcUrl)
             hightLihgtTerm(item.highlightTerm)
         }
@@ -49,6 +51,7 @@ class UserItem(val user: User) : AbstractItem<UserItem.UserViewHolder>() {
         override fun unbindView(item: UserItem) {
             firstnameTv.text = null
             lastnameTv.text = null
+            genderTv.text = null
             userAvatarIv.loadImageFromUrl("")
         }
 

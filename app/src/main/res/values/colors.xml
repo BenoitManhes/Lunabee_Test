@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#071A5C</color>
-    <color name="colorPrimaryDark">#000E40</color>
-    <color name="colorAccent">#D3A000</color>
+    <color name="primaryColor">#0b0057</color>
+    <color name="primaryLightColor">#432885</color>
+    <color name="primaryDarkColor">#0b0057</color>
+    <color name="secondaryColor">#afe1f6</color>
+    <color name="secondaryLightColor">#e2ffff</color>
+    <color name="secondaryDarkColor">#7eafc3</color>
 
-    <color name="purple_light_extra">#CFC7FD</color>
-    <color name="purple_light">#5A49C9</color>
-    <color name="purple_dark">#2B2360</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#000000</color>
+    <color name="surfaceTextColor">@color/secondaryColor</color>
+    <color name="backgroundTextColor">@color/primaryColor</color>
 
-    <color name="colorBackgroundLight">#FFFFFF</color>
-    <color name="colorBackgroundDark">#071A5C</color>
-    <color name="colorOne">#BEFFFA</color>
+    <color name="colorSurface">#00FFFFFF</color>
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorStroke">#E7E7E7</color>
 </resources>

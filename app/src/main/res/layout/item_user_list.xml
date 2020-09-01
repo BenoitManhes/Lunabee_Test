@@ -7,73 +7,76 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorBackgroundLight"
+        android:background="@drawable/background_item"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/roundCardView"
             android:layout_width="@dimen/avatar_preview_size"
             android:layout_height="@dimen/avatar_preview_size"
-            android:layout_marginStart="@dimen/medium_margin"
-            android:layout_marginTop="@dimen/short_margin"
-            android:layout_marginBottom="@dimen/short_margin"
-            android:background="@color/colorOne"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:cardCornerRadius="@dimen/cardview_user_corner_radius"
             android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/margin_short"
+            android:layout_marginTop="@dimen/margin_short"
+            android:layout_marginBottom="@dimen/margin_short"
+            android:background="@color/secondaryColor"
             android:innerRadius="0dp"
             android:shape="ring"
-            android:thicknessRatio="1.9">
+            android:thicknessRatio="1.9"
+            app:cardCornerRadius="@dimen/radius_round_shape"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/userAvatarIv"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:background="@color/colorOne"
-                tools:srcCompact="@tools:sample/avatars"/>
+                android:background="@color/secondaryColor"
+                tools:srcCompact="@tools:sample/avatars" />
         </androidx.cardview.widget.CardView>
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/item_spacing"
-            android:background="@color/colorOne"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
             android:orientation="horizontal"
-            android:layout_marginStart="@dimen/medium_margin"
-            android:layout_marginEnd="@dimen/medium_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/roundCardView"
+            app:layout_constraintBottom_toTopOf="@+id/genreTv"
             app:layout_constraintEnd_toEndOf="parent"
-            >
+            app:layout_constraintStart_toEndOf="@+id/roundCardView"
+            app:layout_constraintTop_toTopOf="@+id/roundCardView">
 
             <TextView
                 android:id="@+id/firstnameTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/textview_user_item"
+                android:textAppearance="@style/TextAppearance.ItemHeadLine"
                 tools:text="Woody" />
 
             <TextView
                 android:id="@+id/lastnameTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/short_margin"
-                android:textAppearance="@style/textview_user_item"
+                android:layout_marginStart="@dimen/margin_short"
+                android:textAppearance="@style/TextAppearance.ItemHeadLine"
                 tools:text="Harrelson" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/genreTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:text="genre"
+            android:textAppearance="@style/TextAppearance.ItemBody"
+            app:layout_constraintBottom_toBottomOf="@+id/roundCardView"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

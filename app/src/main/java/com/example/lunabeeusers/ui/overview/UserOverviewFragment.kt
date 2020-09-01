@@ -152,13 +152,13 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         // Add Decorator to RecyclerView
         binding.usersRv.addItemDecoration(
             MarginItemDecoration(
-                resources.getDimension(R.dimen.item_spacing).toInt()
+                resources.getDimension(R.dimen.padding_medium).toInt()
             )
         )
     }
 
     private fun setupSwipRefreshLayout() {
-        binding.swiperefresh.setColorSchemeResources(R.color.colorBackgroundDark)
+        binding.swiperefresh.setColorSchemeResources(R.color.primaryColor)
         binding.swiperefresh.setOnRefreshListener {
             viewModel.refreshData()
         }
@@ -238,7 +238,7 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
 
     private fun showSnackBar(messageSrc: Int) {
         val snackbar = Snackbar.make(binding.root, messageSrc, Snackbar.LENGTH_SHORT)
-        snackbar.view.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBackgroundDark))
+        snackbar.view.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.primaryColor))
         snackbar.show()
     }
 
