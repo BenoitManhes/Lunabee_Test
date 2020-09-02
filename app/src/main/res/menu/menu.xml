@@ -8,4 +8,11 @@
         android:icon="@drawable/ic_search_black_24dp"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+
+    <item
+        android:id="@+id/darkMode"
+        android:title="@string/darkmode"
+        android:icon="@drawable/ic_darkmode"
+        app:showAsAction="ifRoom"
+        />
 </menu>

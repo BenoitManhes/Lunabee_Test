@@ -64,6 +64,9 @@ dependencies {
     implementation "com.mikepenz:fastadapter-extensions-ui:$version_fast_adapter"
     implementation "com.mikepenz:fastadapter-extensions-utils:$version_fast_adapter"
 
+    // Material design components
+    implementation "com.google.android.material:material:$version_material_design"
+
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$version_navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$version_navigation"

@@ -1,18 +1,22 @@
 package com.example.lunabeeusers.ui.overview
 
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.navigation.fragment.findNavController
@@ -23,6 +27,8 @@ import com.example.lunabeeusers.data.model.UserItem
 import com.example.lunabeeusers.databinding.UserOverviewFragmentBinding
 import com.example.lunabeeusers.utils.MarginItemDecoration
 import com.example.lunabeeusers.utils.Resource.Status
+import com.example.lunabeeusers.utils.avatarTransitionName
+import com.example.lunabeeusers.utils.nameTransitionName
 import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
@@ -50,6 +56,8 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         savedInstanceState: Bundle?): View? {
         binding = UserOverviewFragmentBinding.inflate(inflater)
         setHasOptionsMenu(true)
+        sharedElementReturnTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
         return binding.root
     }
 
@@ -59,6 +67,12 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         setupSwipRefreshLayout()
         setupListener()
         setupObservers()
+
+        // When user hits back button transition takes backward
+        postponeEnterTransition()
+        binding.usersRv.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -71,6 +85,9 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.darkMode -> switchDarkmode()
+        }
         return item.onNavDestinationSelected(findNavController()) ||
             super.onOptionsItemSelected(item)
     }
@@ -114,9 +131,9 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         fastItemAdapter.addAdapter(1, footerAdapter)
 
         //set fastAdapter onClickListener
-        fastItemAdapter.onClickListener = { _, _, item, _ ->
+        fastItemAdapter.onClickListener = { view, _, item, _ ->
             if (item is UserItem) {
-                navigateToDetailUser(item.user)
+                navigateToDetailUser(item, view)
             }
             false
         }
@@ -152,13 +169,13 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         // Add Decorator to RecyclerView
         binding.usersRv.addItemDecoration(
             MarginItemDecoration(
-                resources.getDimension(R.dimen.item_spacing).toInt()
+                resources.getDimension(R.dimen.padding_medium).toInt()
             )
         )
     }
 
     private fun setupSwipRefreshLayout() {
-        binding.swiperefresh.setColorSchemeResources(R.color.colorBackgroundDark)
+        binding.swiperefresh.setColorSchemeResources(R.color.primaryColor)
         binding.swiperefresh.setOnRefreshListener {
             viewModel.refreshData()
         }
@@ -238,7 +255,7 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
 
     private fun showSnackBar(messageSrc: Int) {
         val snackbar = Snackbar.make(binding.root, messageSrc, Snackbar.LENGTH_SHORT)
-        snackbar.view.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBackgroundDark))
+        snackbar.view.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.primaryColor))
         snackbar.show()
     }
 
@@ -275,9 +292,21 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
      * Show fragment detail of user to display
      * @param user User to diplay in detail
      */
-    private fun navigateToDetailUser(user: User) {
-        this.findNavController().navigate(UserOverviewFragmentDirections
-            .actionUserOverviewFragmentToDetailFragment(user))
+    private fun navigateToDetailUser(item: UserItem, view: View?) {
+        if (view != null) {
+            val extra = FragmentNavigatorExtras(
+                item.getViewHolder(view).cardView to avatarTransitionName(item.user),
+                item.getViewHolder(view).nameTv to nameTransitionName(item.user)
+            )
+
+            this.findNavController().navigate(
+                UserOverviewFragmentDirections.actionUserOverviewFragmentToDetailFragment(item.user),
+                extra)
+        } else {
+            this.findNavController().navigate(UserOverviewFragmentDirections
+                .actionUserOverviewFragmentToDetailFragment(item.user))
+        }
+
     }
 
     /**
@@ -296,4 +325,12 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         FastAdapterDiffUtil[fastItemAdapter.itemAdapter] = userItemList
     }
 
+    private fun switchDarkmode() {
+        var nightMode = AppCompatDelegate.MODE_NIGHT_NO
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+            nightMode = AppCompatDelegate.MODE_NIGHT_YES
+        }
+
+        AppCompatDelegate.setDefaultNightMode(nightMode)
+    }
 }
