@@ -9,7 +9,7 @@
 
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#000000</color>
-    <color name="surfaceTextColor">@color/secondaryColor</color>
+    <color name="surfaceTextColor">@color/primaryColor</color>
     <color name="backgroundTextColor">@color/primaryColor</color>
 
     <color name="colorSurface">#00FFFFFF</color>

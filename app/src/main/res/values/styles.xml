@@ -12,8 +12,16 @@
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnSurface">@color/surfaceTextColor</item>
         <item name="colorOnBackground">@color/backgroundTextColor</item>
-        <item name="android:fontFamily">@font/palanquin_medium</item>
 
+        <item name="android:fontFamily">@font/palanquin_medium</item>
+        <item name="actionBarStyle">@style/ActionBarPrimary</item>
+
+    </style>
+
+    <style name="ActionBarPrimary" parent="Widget.MaterialComponents.ActionBar.Primary">
+        <item name="background">@color/primaryColor</item>
+        <item name="titleTextStyle">@style/TextAppearance.ActionBar</item>
+        <item name="color">center</item>
     </style>
 
     <!-- Base Text style-->
@@ -26,6 +34,12 @@
         <item name="android:fontFamily">@font/heebo_light</item>
         <item name="android:textColor">?colorOnSurface</item>
         <item name="android:textSize">@dimen/text_body_base</item>
+    </style>
+
+    <!-- ActionBar style-->
+    <style name="TextAppearance.ActionBar" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <!-- Item style-->

@@ -15,7 +15,6 @@
             android:layout_height="0dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_medium"
-            android:background="@color/secondaryLightColor"
             android:innerRadius="0dp"
             android:shape="ring"
             app:cardCornerRadius="@dimen/radius_round_shape"
@@ -31,7 +30,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:background="@color/secondaryColor"
+                android:background="?colorSecondaryVariant"
                 tools:srcCompact="@tools:sample/avatars" />
         </androidx.cardview.widget.CardView>
 
