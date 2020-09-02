@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.text.clearSpans
 import com.bumptech.glide.Glide
+import com.example.lunabeeusers.data.model.User
 
 fun ImageView.loadImageFromUrl(imgUrl: String?) {
     Glide.with(context)
@@ -32,3 +33,7 @@ fun TextView.clearHighligh() {
     result.clearSpans()
     text = result
 }
+
+fun firstTransitionName(user: User) = "first_${user.id}"
+fun secondTransitionName(user: User) = "second_${user.id}"
+fun thirdTransitionName(user: User) = "third_${user.id}"

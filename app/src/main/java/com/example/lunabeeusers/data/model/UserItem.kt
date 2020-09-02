@@ -3,8 +3,10 @@ package com.example.lunabeeusers.data.model
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import com.example.lunabeeusers.R
 import com.example.lunabeeusers.utils.clearHighligh
+import com.example.lunabeeusers.utils.firstTransitionName
 import com.example.lunabeeusers.utils.highlighTerm
 import com.example.lunabeeusers.utils.loadImageFromUrl
 import com.mikepenz.fastadapter.FastAdapter
@@ -39,12 +41,14 @@ class UserItem(val user: User) : AbstractItem<UserItem.UserViewHolder>() {
         val lastnameTv: TextView = view.findViewById(R.id.lastnameTv)
         val userAvatarIv: ImageView = view.findViewById(R.id.userAvatarIv)
         val genderTv: TextView = view.findViewById(R.id.genreTv)
+        val cardView: CardView = view.findViewById(R.id.roundCardView)
 
         override fun bindView(item: UserItem, payloads: List<Any>) {
             firstnameTv.text = item.user.firstname
             lastnameTv.text = item.user.lastname
             genderTv.text = item.user.gender
             userAvatarIv.loadImageFromUrl(item.user.imgSrcUrl)
+            cardView.transitionName = firstTransitionName(item.user)
             hightLihgtTerm(item.highlightTerm)
         }
 
