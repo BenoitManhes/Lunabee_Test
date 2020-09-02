@@ -34,6 +34,5 @@ fun TextView.clearHighligh() {
     text = result
 }
 
-fun firstTransitionName(user: User) = "first_${user.id}"
-fun secondTransitionName(user: User) = "second_${user.id}"
-fun thirdTransitionName(user: User) = "third_${user.id}"
+fun avatarTransitionName(user: User) = "avatar_${user.id}"
+fun nameTransitionName(user: User) = "name_${user.id}"

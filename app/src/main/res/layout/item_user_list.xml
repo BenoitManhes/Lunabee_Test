@@ -36,34 +36,18 @@
                 tools:srcCompact="@tools:sample/avatars" />
         </androidx.cardview.widget.CardView>
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        <TextView
+            android:id="@+id/nameTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:orientation="horizontal"
+            android:textAppearance="@style/TextAppearance.ItemHeadLine"
             app:layout_constraintBottom_toTopOf="@+id/genreTv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/roundCardView"
-            app:layout_constraintTop_toTopOf="@+id/roundCardView">
-
-            <TextView
-                android:id="@+id/firstnameTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.ItemHeadLine"
-                tools:text="Woody" />
-
-            <TextView
-                android:id="@+id/lastnameTv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_short"
-                android:textAppearance="@style/TextAppearance.ItemHeadLine"
-                tools:text="Harrelson" />
-
-        </LinearLayout>
+            app:layout_constraintTop_toTopOf="@+id/roundCardView"
+            tools:text="Woody Harelson"/>
 
         <TextView
             android:id="@+id/genreTv"
@@ -73,9 +57,9 @@
             android:text="genre"
             android:textAppearance="@style/TextAppearance.ItemBody"
             app:layout_constraintBottom_toBottomOf="@+id/roundCardView"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-            app:layout_constraintStart_toStartOf="@+id/linearLayout"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            app:layout_constraintEnd_toEndOf="@+id/nameTv"
+            app:layout_constraintStart_toStartOf="@+id/nameTv"
+            app:layout_constraintTop_toBottomOf="@+id/nameTv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

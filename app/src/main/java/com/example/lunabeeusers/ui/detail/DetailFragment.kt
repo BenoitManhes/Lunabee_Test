@@ -11,9 +11,9 @@ import androidx.lifecycle.Observer
 import com.example.lunabeeusers.data.model.User
 
 import com.example.lunabeeusers.databinding.DetailFragmentBinding
-import com.example.lunabeeusers.utils.firstTransitionName
+import com.example.lunabeeusers.utils.avatarTransitionName
 import com.example.lunabeeusers.utils.loadImageFromUrl
-import com.example.lunabeeusers.utils.secondTransitionName
+import com.example.lunabeeusers.utils.nameTransitionName
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
@@ -46,7 +46,8 @@ class DetailFragment : Fragment() {
         setupObservers()
 
         // Define Shared Elements
-        binding.roundCardView.transitionName = firstTransitionName(arguments.user)
+        binding.roundCardView.transitionName = avatarTransitionName(arguments.user)
+        binding.nameTv.transitionName = nameTransitionName(arguments.user)
     }
 
     private fun setupObservers() {

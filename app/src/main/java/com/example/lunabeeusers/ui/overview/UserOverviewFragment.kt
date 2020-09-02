@@ -27,7 +27,8 @@ import com.example.lunabeeusers.data.model.UserItem
 import com.example.lunabeeusers.databinding.UserOverviewFragmentBinding
 import com.example.lunabeeusers.utils.MarginItemDecoration
 import com.example.lunabeeusers.utils.Resource.Status
-import com.example.lunabeeusers.utils.firstTransitionName
+import com.example.lunabeeusers.utils.avatarTransitionName
+import com.example.lunabeeusers.utils.nameTransitionName
 import com.google.android.material.snackbar.Snackbar
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
@@ -294,7 +295,8 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
     private fun navigateToDetailUser(item: UserItem, view: View?) {
         if (view != null) {
             val extra = FragmentNavigatorExtras(
-                item.getViewHolder(view).cardView to firstTransitionName(item.user)
+                item.getViewHolder(view).cardView to avatarTransitionName(item.user),
+                item.getViewHolder(view).nameTv to nameTransitionName(item.user)
             )
 
             this.findNavController().navigate(
