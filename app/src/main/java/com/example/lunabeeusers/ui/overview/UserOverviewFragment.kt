@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -71,6 +72,9 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.darkMode -> switchDarkmode()
+        }
         return item.onNavDestinationSelected(findNavController()) ||
             super.onOptionsItemSelected(item)
     }
@@ -294,6 +298,15 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
 
         // Add UserItems in the itemAdapter with DiffUtil
         FastAdapterDiffUtil[fastItemAdapter.itemAdapter] = userItemList
+    }
+
+    private fun switchDarkmode() {
+        var nightMode = AppCompatDelegate.MODE_NIGHT_NO
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+            nightMode = AppCompatDelegate.MODE_NIGHT_YES
+        }
+
+        AppCompatDelegate.setDefaultNightMode(nightMode)
     }
 
 }

@@ -21,7 +21,6 @@
     <style name="ActionBarPrimary" parent="Widget.MaterialComponents.ActionBar.Primary">
         <item name="background">@color/primaryColor</item>
         <item name="titleTextStyle">@style/TextAppearance.ActionBar</item>
-        <item name="color">center</item>
     </style>
 
     <!-- Base Text style-->
