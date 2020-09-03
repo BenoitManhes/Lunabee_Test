@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuItemCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -54,6 +55,7 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
     private lateinit var searchView: SearchView
 
     private var lastClickTime: Long = 0
+    private var isOnPause = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
@@ -66,6 +68,8 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        isOnPause = false
+
         setupRecyclerView()
         setupSwipRefreshLayout()
         setupListener()
@@ -95,7 +99,29 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
             super.onOptionsItemSelected(item)
     }
 
+    override fun onPause() {
+        super.onPause()
+        isOnPause = true
+    }
+
     private fun setupSearchView(item: MenuItem) {
+        // Setup searchView
+        searchView = item.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.searchUser(query)
+                searchView.clearFocus()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (!isOnPause) {
+                    viewModel.searchUser(newText)
+                }
+                return true
+            }
+        })
+
         // Setup searchItem expansion
         item.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
@@ -106,20 +132,6 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
                 viewModel.clearUserFilter()
                 endlessScrollListener.enable()
-                return true
-            }
-        })
-
-        // Setup query user filter
-        searchView = item.actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.searchUser(query)
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.searchUser(newText)
                 return true
             }
         })
@@ -166,7 +178,7 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         // onScroll listener
         endlessScrollListener = object : EndlessRecyclerOnScrollListener() {
             override fun onLoadMore(currentPage: Int) {
-                Timber.i("endlessScrollListener onLoadMore, page: ${currentPage}")
+                Timber.i("endlessScrollListener onLoadMore, page: $currentPage")
                 showProgressItemScrolling()
                 // Loading new items
                 viewModel.loadNextPage()
@@ -298,7 +310,8 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
 
     /**
      * Show fragment detail of user to display
-     * @param user User to diplay in detail
+     * @param item User item to diplay in detail
+     * @param view View containing element for shared element transition
      */
     private fun navigateToDetailUser(item: UserItem, view: View?) {
         if (view != null) {
