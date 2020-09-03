@@ -17,14 +17,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lunabeeusers.R
 import com.example.lunabeeusers.data.model.User
 import com.example.lunabeeusers.data.model.UserItem
 import com.example.lunabeeusers.databinding.UserOverviewFragmentBinding
+import com.example.lunabeeusers.utils.Constant
 import com.example.lunabeeusers.utils.MarginItemDecoration
 import com.example.lunabeeusers.utils.Resource.Status
 import com.example.lunabeeusers.utils.avatarTransitionName
@@ -51,6 +52,8 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
     private lateinit var footerAdapter: GenericItemAdapter
     private lateinit var endlessScrollListener: EndlessRecyclerOnScrollListener
     private lateinit var searchView: SearchView
+
+    private var lastClickTime: Long = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
@@ -132,8 +135,13 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
 
         //set fastAdapter onClickListener
         fastItemAdapter.onClickListener = { view, _, item, _ ->
-            if (item is UserItem) {
-                navigateToDetailUser(item, view)
+            val now = System.currentTimeMillis()
+            //avoid fast taps crash
+            if (now - lastClickTime > Constant.CLICK_INTERVAL) {
+                lastClickTime = now
+                if (item is UserItem) {
+                    navigateToDetailUser(item, view)
+                }
             }
             false
         }
@@ -306,7 +314,6 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
             this.findNavController().navigate(UserOverviewFragmentDirections
                 .actionUserOverviewFragmentToDetailFragment(item.user))
         }
-
     }
 
     /**
