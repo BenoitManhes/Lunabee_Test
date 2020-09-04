@@ -12,7 +12,7 @@ import com.example.lunabeeusers.data.model.User
 
 import com.example.lunabeeusers.databinding.DetailFragmentBinding
 import com.example.lunabeeusers.utils.avatarTransitionName
-import com.example.lunabeeusers.utils.loadImageFromUrl
+import com.example.lunabeeusers.utils.loadCircleImageFromUrl
 import com.example.lunabeeusers.utils.nameTransitionName
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
@@ -46,7 +46,7 @@ class DetailFragment : Fragment() {
         setupObservers()
 
         // Define Shared Elements
-        binding.roundCardView.transitionName = avatarTransitionName(arguments.user)
+        binding.userAvatarIv.transitionName = avatarTransitionName(arguments.user)
         binding.nameTv.transitionName = nameTransitionName(arguments.user)
     }
 
@@ -62,7 +62,7 @@ class DetailFragment : Fragment() {
         binding.nameTv.text = user.firstname + " " + user.lastname
         binding.emailTv.text = user.email
         binding.genreTv.text = user.gender
-        binding.userAvatarIv.loadImageFromUrl(user.imgSrcUrl)
+        binding.userAvatarIv.loadCircleImageFromUrl(user.imgSrcUrl)
     }
 
 }

@@ -313,7 +313,7 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
     private fun navigateToDetailUser(item: UserItem, view: View?) {
         if (view != null) {
             val extra = FragmentNavigatorExtras(
-                item.getViewHolder(view).cardView to avatarTransitionName(item.user),
+                item.getViewHolder(view).userAvatarIv to avatarTransitionName(item.user),
                 item.getViewHolder(view).nameTv to nameTransitionName(item.user)
             )
 

@@ -8,7 +8,7 @@ import com.example.lunabeeusers.R
 import com.example.lunabeeusers.utils.clearHighligh
 import com.example.lunabeeusers.utils.avatarTransitionName
 import com.example.lunabeeusers.utils.highlighTerm
-import com.example.lunabeeusers.utils.loadImageFromUrl
+import com.example.lunabeeusers.utils.loadCircleImageFromUrl
 import com.example.lunabeeusers.utils.nameTransitionName
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
@@ -41,21 +41,20 @@ class UserItem(val user: User) : AbstractItem<UserItem.UserViewHolder>() {
         val nameTv: TextView = view.findViewById(R.id.nameTv)
         val userAvatarIv: ImageView = view.findViewById(R.id.userAvatarIv)
         val genderTv: TextView = view.findViewById(R.id.genreTv)
-        val cardView: CardView = view.findViewById(R.id.roundCardView)
 
         override fun bindView(item: UserItem, payloads: List<Any>) {
             nameTv.text = item.user.firstname + " " + item.user.lastname
             nameTv.transitionName = nameTransitionName(item.user)
             genderTv.text = item.user.gender
-            userAvatarIv.loadImageFromUrl(item.user.imgSrcUrl)
-            cardView.transitionName = avatarTransitionName(item.user)
+            userAvatarIv.loadCircleImageFromUrl(item.user.imgSrcUrl)
+            userAvatarIv.transitionName = avatarTransitionName(item.user)
             hightLihgtTerm(item.highlightTerm)
         }
 
         override fun unbindView(item: UserItem) {
             nameTv.text = null
             genderTv.text = null
-            userAvatarIv.loadImageFromUrl("")
+            userAvatarIv.loadCircleImageFromUrl("")
         }
 
         fun hightLihgtTerm(term: String) {

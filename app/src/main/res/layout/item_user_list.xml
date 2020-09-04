@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -10,31 +11,19 @@
         android:background="@drawable/background_item"
         android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/roundCardView"
+        <ImageView
+            android:id="@+id/userAvatarIv"
             android:layout_width="@dimen/avatar_preview_size"
             android:layout_height="@dimen/avatar_preview_size"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="@dimen/margin_short"
             android:layout_marginTop="@dimen/margin_short"
             android:layout_marginBottom="@dimen/margin_short"
-            android:innerRadius="0dp"
-            android:shape="ring"
-            android:thicknessRatio="1.9"
-            app:cardCornerRadius="@dimen/radius_round_shape"
+            android:background="@drawable/backgroung_avatar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/userAvatarIv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:background="?colorSecondaryVariant"
-                tools:srcCompact="@tools:sample/avatars" />
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompact="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/nameTv"
@@ -45,9 +34,9 @@
             android:textAppearance="@style/TextAppearance.ItemHeadLine"
             app:layout_constraintBottom_toTopOf="@+id/genreTv"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/roundCardView"
-            app:layout_constraintTop_toTopOf="@+id/roundCardView"
-            tools:text="Woody Harelson"/>
+            app:layout_constraintStart_toEndOf="@+id/userAvatarIv"
+            app:layout_constraintTop_toTopOf="@+id/userAvatarIv"
+            tools:text="Woody Harelson" />
 
         <TextView
             android:id="@+id/genreTv"
@@ -56,7 +45,7 @@
             android:includeFontPadding="false"
             android:text="genre"
             android:textAppearance="@style/TextAppearance.ItemBody"
-            app:layout_constraintBottom_toBottomOf="@+id/roundCardView"
+            app:layout_constraintBottom_toBottomOf="@+id/userAvatarIv"
             app:layout_constraintEnd_toEndOf="@+id/nameTv"
             app:layout_constraintStart_toStartOf="@+id/nameTv"
             app:layout_constraintTop_toBottomOf="@+id/nameTv" />
