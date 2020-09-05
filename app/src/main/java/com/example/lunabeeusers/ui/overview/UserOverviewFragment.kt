@@ -210,6 +210,7 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
             it?.let {
                 setUserItem(it)
                 updateFilter(viewModel.searchTerm.value)
+                updateFilteringUi()
             }
         })
 
@@ -217,12 +218,14 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         viewModel.statut.observe(viewLifecycleOwner, Observer {
             it?.let {
                 updateStatutUi(it)
+                updateFilteringUi()
             }
         })
 
         // Observing search term
         viewModel.searchTerm.observe(viewLifecycleOwner, Observer {
             updateFilter(it)
+            updateFilteringUi()
         })
     }
 
@@ -269,9 +272,9 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
      * Handle ui element visibility according to filtering result
      */
     private fun updateFilteringUi() {
-        val isfilterResultEmpty = fastItemAdapter.itemCount == 0
-        binding.noResultIv.isVisible = isfilterResultEmpty
-        binding.noResultText.isVisible = isfilterResultEmpty
+        val isfilterResultEmpty = fastItemAdapter.itemCount == 0 && !viewModel.isFilterEmpty()
+        binding.noResultIv.isVisible = isfilterResultEmpty && viewModel.statut.value == Status.SUCCESS
+        binding.noResultText.isVisible = isfilterResultEmpty && viewModel.statut.value == Status.SUCCESS
     }
 
     /**
