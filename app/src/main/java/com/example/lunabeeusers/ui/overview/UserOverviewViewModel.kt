@@ -102,6 +102,8 @@ class UserOverviewViewModel @ViewModelInject constructor(
         getUsersPageFromApi()
     }
 
+    fun isFilterEmpty(): Boolean = searchTerm.value == null || searchTerm.value.equals("")
+
     operator fun <T> MutableLiveData<ArrayList<T>>.plusAssign(values: List<T>) {
         val value = this.value ?: arrayListOf()
         value.addAll(values)

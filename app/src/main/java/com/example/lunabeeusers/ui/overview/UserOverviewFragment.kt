@@ -229,21 +229,39 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
     /**
      * Handle ui element visibility according to statut
      */
-    private fun updateStatutUi(statut: Status) {
-        val nothingToShow = (viewModel.userList.value == null)
+    private fun updateStatutUi(status: Status) {
+        val nothingToShow = fastItemAdapter.itemCount == 0 && viewModel.isFilterEmpty()
 
-        // Synchronization elements
-        binding.spinner.isVisible = !binding.swiperefresh.isRefreshing && statut.equals(Status.LOADING)
-        binding.syncFailedIv.isVisible = nothingToShow && statut.equals(Status.ERROR)
-        binding.syncFailedTv.isVisible = nothingToShow && statut.equals(Status.ERROR)
-        binding.tryAgain.isVisible = nothingToShow && statut.equals(Status.ERROR)
+        when (status) {
+            Status.LOADING -> {
+                //synchronization elements
+                binding.syncFailedIv.isVisible = false
+                binding.syncFailedTv.isVisible = false
+                binding.tryAgain.isVisible = false
+            }
 
-        if (!nothingToShow && statut.equals(Status.ERROR)) {
-            showSnackBar(R.string.sync_failed)
-        }
+            Status.SUCCESS -> {
+                //synchronization elements
+                binding.syncFailedIv.isVisible = false
+                binding.syncFailedTv.isVisible = false
+                binding.tryAgain.isVisible = false
+                //stop refresh spinner
+                binding.swiperefresh.isRefreshing = false
+            }
 
-        if (!statut.equals(Status.LOADING)) {
-            binding.swiperefresh.isRefreshing = false
+            Status.ERROR -> {
+                //stop refresh spinner
+                binding.swiperefresh.isRefreshing = false
+
+                //synchronization elements
+                if (nothingToShow) {
+                    binding.syncFailedIv.isVisible = true
+                    binding.syncFailedTv.isVisible = true
+                    binding.tryAgain.isVisible = true
+                } else {
+                    showSnackBar(R.string.sync_failed)
+                }
+            }
         }
     }
 
