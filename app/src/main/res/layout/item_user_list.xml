@@ -8,7 +8,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_item"
         android:orientation="vertical">
 
         <ImageView
@@ -32,23 +31,28 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:textAppearance="@style/TextAppearance.ItemHeadLine"
-            app:layout_constraintBottom_toTopOf="@+id/genreTv"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineH"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/userAvatarIv"
-            app:layout_constraintTop_toTopOf="@+id/userAvatarIv"
             tools:text="Woody Harelson" />
 
         <TextView
             android:id="@+id/genreTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:includeFontPadding="false"
-            android:text="genre"
             android:textAppearance="@style/TextAppearance.ItemBody"
             app:layout_constraintBottom_toBottomOf="@+id/userAvatarIv"
             app:layout_constraintEnd_toEndOf="@+id/nameTv"
             app:layout_constraintStart_toStartOf="@+id/nameTv"
-            app:layout_constraintTop_toBottomOf="@+id/nameTv" />
+            app:layout_constraintTop_toBottomOf="@+id/guidelineH"
+            tools:text="genre"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineH"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

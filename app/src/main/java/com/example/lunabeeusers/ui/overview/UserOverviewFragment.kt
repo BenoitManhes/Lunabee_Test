@@ -186,7 +186,7 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         // Add Decorator to RecyclerView
         binding.usersRv.addItemDecoration(
             MarginItemDecoration(
-                resources.getDimension(R.dimen.padding_medium).toInt()
+                resources.getDimension(R.dimen.padding_short).toInt()
             )
         )
     }

@@ -13,8 +13,8 @@
         <item name="colorOnSurface">@color/surfaceTextColor</item>
         <item name="colorOnBackground">@color/backgroundTextColor</item>
 
-        <item name="android:fontFamily">@font/palanquin_medium</item>
         <item name="actionBarStyle">@style/ActionBarPrimary</item>
+        <item name="fontFamily">@font/rubik</item>
 
     </style>
 
@@ -27,11 +27,11 @@
     <style name="TextAppearance.BaseHeadline" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:textColor">?colorOnBackground</item>
         <item name="android:textSize">@dimen/text_headline_base</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextAppearance.BaseBody" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:fontFamily">@font/heebo_light</item>
-        <item name="android:textColor">?colorOnSurface</item>
+        <item name="android:textColor">?colorSecondaryVariant</item>
         <item name="android:textSize">@dimen/text_body_base</item>
     </style>
 
@@ -48,6 +48,7 @@
 
     <style name="TextAppearance.ItemBody" parent="TextAppearance.BaseBody">
         <item name="android:textSize">@dimen/text_body_item</item>
+        <item name="android:minHeight">0dp</item>
     </style>
 
     <!-- Error style-->
