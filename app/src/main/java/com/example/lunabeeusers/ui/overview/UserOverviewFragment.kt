@@ -194,7 +194,8 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
     private fun setupSwipRefreshLayout() {
         binding.swiperefresh.setColorSchemeResources(R.color.primaryColor)
         binding.swiperefresh.setOnRefreshListener {
-            viewModel.refreshData()
+            viewModel.resetUserList()
+            endlessScrollListener.resetPageCount(0)
         }
     }
 
@@ -303,17 +304,6 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
             fastItemAdapter.filter(it)
             updateFilterHighLighting()
         }
-    }
-
-    /**
-     * Show a progressItem at the end to display the next page loading
-     */
-    private fun showProgressItemScrolling() {
-        footerAdapter.clear()
-        val progressItem = ProgressItem()
-        progressItem.isEnabled = false
-        footerAdapter.add(ProgressItem())
-
     }
 
     override fun itemsFiltered(constraint: CharSequence?, results: List<GenericItem>?) {

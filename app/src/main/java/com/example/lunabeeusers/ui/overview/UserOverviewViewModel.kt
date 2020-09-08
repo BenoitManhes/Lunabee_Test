@@ -40,11 +40,12 @@ class UserOverviewViewModel @ViewModelInject constructor(
     private var pageToLoad: Int = 0
 
     init {
-        resetUserList()
+        refreshData()
     }
 
     fun refreshData() {
         resetUserList()
+        getUsersPageFromApi()
     }
 
     /**
@@ -52,8 +53,7 @@ class UserOverviewViewModel @ViewModelInject constructor(
      */
     fun resetUserList() {
         pageToLoad = 0
-        _usersList.value = null
-        getUsersPageFromApi()
+        _usersList.value = ArrayList()
     }
 
     fun searchUser(searchTerm: String?) {
