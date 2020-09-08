@@ -11,4 +11,5 @@
     <color name="backgroundTextColor">@color/primaryColor</color>
 
     <color name="surfaceColor">#20000000</color>
+    <color name="highlightColor">#FFDD00</color>
 </resources>

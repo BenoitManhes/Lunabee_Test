@@ -11,11 +11,16 @@
         <item name="colorOnSecondary">@color/secondaryTextColor</item>
         <item name="colorOnBackground">@color/backgroundTextColor</item>
         <item name="colorSurface">@color/surfaceColor</item>
+        <item name="android:textColorHighlight">@color/highlightColor</item>
 
         <item name="actionBarStyle">@style/ActionBarPrimary</item>
         <item name="android:actionBarStyle">@style/ActionBarPrimary</item>
         <item name="fontFamily">@font/rubik</item>
 
+        <!-- enable window content transitions -->
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowActionBarOverlay">false</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
     </style>
 
     <style name="ActionBarPrimary" parent="Widget.MaterialComponents.ActionBar.Primary">
@@ -37,7 +42,6 @@
 
     <!-- ActionBar style-->
     <style name="TextAppearance.ActionBar" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textAlignment">center</item>
         <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
