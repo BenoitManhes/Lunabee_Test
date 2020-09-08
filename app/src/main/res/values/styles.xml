@@ -9,17 +9,17 @@
         <item name="colorSecondary">@color/secondaryColor</item>
         <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
         <item name="colorOnSecondary">@color/secondaryTextColor</item>
-        <item name="colorSurface">@color/colorSurface</item>
-        <item name="colorOnSurface">@color/surfaceTextColor</item>
         <item name="colorOnBackground">@color/backgroundTextColor</item>
+        <item name="colorSurface">@color/surfaceColor</item>
 
         <item name="actionBarStyle">@style/ActionBarPrimary</item>
+        <item name="android:actionBarStyle">@style/ActionBarPrimary</item>
         <item name="fontFamily">@font/rubik</item>
 
     </style>
 
     <style name="ActionBarPrimary" parent="Widget.MaterialComponents.ActionBar.Primary">
-        <item name="background">@color/primaryColor</item>
+        <item name="background">?colorPrimary</item>
         <item name="titleTextStyle">@style/TextAppearance.ActionBar</item>
     </style>
 
@@ -31,7 +31,7 @@
     </style>
 
     <style name="TextAppearance.BaseBody" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textColor">?colorSecondaryVariant</item>
+        <item name="android:textColor">?colorSecondary</item>
         <item name="android:textSize">@dimen/text_body_base</item>
     </style>
 

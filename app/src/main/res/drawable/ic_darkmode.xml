@@ -3,7 +3,7 @@
     android:height="570.44dp"
     android:viewportWidth="665.11"
     android:viewportHeight="570.44"
-    android:tint="@color/primaryTextColor">
+    android:tint="?colorOnPrimary">
   <path
       android:fillColor="#FF000000"
       android:pathData="M345.33,125.98c-46,43.5 -68.92,96.18 -64,159.45S317.01,397.25 368.9,432.98c-51.72,33.42 -135.53,37.16 -198,-14.13 -71.18,-58.47 -83,-158.53 -33.13,-230.89C188.18,114.88 279.11,97.42 345.33,125.98Z"/>
