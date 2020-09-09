@@ -18,23 +18,23 @@ class UserOverviewViewModel @ViewModelInject constructor(
     private val repository: UserRepository
 ) : ViewModel() {
 
-    // The internal MutableLiveData List<User> that stores the users return by the API
-    private val _usersList = MutableLiveData<ArrayList<User>>()
+    // The internal List<User> that stores the users return by the Api
+    private var _allUsersList = ArrayList<User>()
+
+    // The internal MutableLiveData List<User> that stores the users to show
+    private val _usersListToShow = MutableLiveData<ArrayList<User>>()
 
     // External MutableLiveData List<User> used to diplay users
     val userList: LiveData<ArrayList<User>>
-        get() = _usersList
+        get() = _usersListToShow
 
     private val _statut = MutableLiveData<Status>()
-
     val statut: LiveData<Status>
         get() = _statut
 
-    // The internal MutableLiveData String that stores the search term to filter user
-    private val _searchTerm = MutableLiveData<String>()
-
-    // External MutableLiveData String used to filter users
-    val searchTerm: LiveData<String>
+    // The internal String that stores the search term to filter user
+    private var _searchTerm = ""
+    val searchTerm: String
         get() = _searchTerm
 
     private var pageToLoad: Int = 0
@@ -53,19 +53,20 @@ class UserOverviewViewModel @ViewModelInject constructor(
      */
     fun resetUserList() {
         pageToLoad = 0
-        _usersList.value = ArrayList()
+        _usersListToShow.value = ArrayList()
     }
 
     fun searchUser(searchTerm: String?) {
         if (searchTerm == null) {
-            _searchTerm.value = ""
+            this._searchTerm = ""
         } else {
-            _searchTerm.value = searchTerm
+            this._searchTerm = searchTerm
         }
+        applyFilter()
     }
 
     fun clearUserFilter() {
-        _searchTerm.value = ""
+        searchUser("")
     }
 
     private fun getUsersFromApi() {
@@ -74,7 +75,10 @@ class UserOverviewViewModel @ViewModelInject constructor(
             repository.getUsers()
                 .collect { resource: Resource<List<User>> ->
                     when (resource.status) {
-                        Status.SUCCESS -> _usersList.value = resource.data as ArrayList<User>
+                        Status.SUCCESS -> {
+                            _allUsersList = resource.data as ArrayList<User>
+                            applyFilter()
+                        }
                         Status.ERROR -> Timber.d(resource.message)
                     }
                     _statut.value = resource.status
@@ -88,7 +92,10 @@ class UserOverviewViewModel @ViewModelInject constructor(
             repository.getUsersPage(pageToLoad)
                 .collect { resource: Resource<List<User>> ->
                     when (resource.status) {
-                        Status.SUCCESS -> _usersList += resource.data!!
+                        Status.SUCCESS -> {
+                            _allUsersList.addAll(resource.data as ArrayList<User>)
+                            applyFilter()
+                        }
                         Status.ERROR -> Timber.d(resource.message)
                     }
                     _statut.value = resource.status
@@ -97,12 +104,22 @@ class UserOverviewViewModel @ViewModelInject constructor(
     }
 
     fun loadNextPage() {
-        pageToLoad = _usersList.value?.size?.div(Constant.PAGE_SIZE) ?: 0
+        pageToLoad = _allUsersList.size.div(Constant.PAGE_SIZE)
         Timber.i("loadNextPage(): ${pageToLoad}")
         getUsersPageFromApi()
     }
 
-    fun isFilterEmpty(): Boolean = searchTerm.value == null || searchTerm.value.equals("")
+    fun isFilterEmpty(): Boolean = _searchTerm == null || _searchTerm.equals("")
+
+    private fun applyFilter() {
+        val filteredList = ArrayList<User>()
+        for (user in _allUsersList) {
+            if (user.isConcernedByTerm(_searchTerm)) {
+                filteredList.add(user)
+            }
+        }
+        _usersListToShow.value = filteredList
+    }
 
     operator fun <T> MutableLiveData<ArrayList<T>>.plusAssign(values: List<T>) {
         val value = this.value ?: arrayListOf()

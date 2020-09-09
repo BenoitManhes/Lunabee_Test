@@ -12,4 +12,9 @@ data class User(
     @Json(name = "email") val email: String,
     @Json(name = "gender") val gender: String,
     @Json(name = "avatar") val imgSrcUrl: String
-) : Parcelable
+) : Parcelable {
+
+    fun isConcernedByTerm(term: String): Boolean =
+        (firstname + " " + lastname).contains(term, ignoreCase = true) ||
+            (lastname + " " + firstname).contains(term, ignoreCase = true)
+}

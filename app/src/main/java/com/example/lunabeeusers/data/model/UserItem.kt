@@ -25,10 +25,6 @@ class UserItem(val user: User) : AbstractItem<UserItem.UserViewHolder>() {
 
     var highlightTerm: String = ""
 
-    fun isConcernedByTerm(term: String): Boolean =
-        (user.firstname + " " + user.lastname).contains(term, ignoreCase = true) ||
-            (user.lastname + " " + user.firstname).contains(term, ignoreCase = true)
-
     override fun getViewHolder(v: View): UserViewHolder {
         return UserViewHolder(v)
     }

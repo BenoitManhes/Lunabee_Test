@@ -22,6 +22,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.lunabeeusers.R
 import com.example.lunabeeusers.data.model.User
 import com.example.lunabeeusers.data.model.UserItem
@@ -38,14 +39,13 @@ import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter.Companion.items
 import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
-import com.mikepenz.fastadapter.listeners.ItemFilterListener
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
+class UserOverviewFragment : Fragment() {
 
     private val viewModel: UserOverviewViewModel by viewModels()
     private lateinit var binding: UserOverviewFragmentBinding
@@ -128,7 +128,6 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
             // Remove filter when search action is collapsed
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
                 viewModel.clearUserFilter()
-                endlessScrollListener.enable()
                 return true
             }
         })
@@ -155,29 +154,21 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
             false
         }
 
-        //configure the filter
-        fastItemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
-            if (item is UserItem) {
-                //return true if we should filter it out
-                item.isConcernedByTerm(constraint.toString())
-            } else {
-                //return false to keep it
-                false
-            }
-        }
-        fastItemAdapter.itemFilter.itemFilterListener = this
-
         // Setup RecyclerView
         binding.usersRv.adapter = fastItemAdapter
         binding.usersRv.layoutManager = LinearLayoutManager(context)
         binding.usersRv.itemAnimator = DefaultItemAnimator()
 
         // onScroll listener
-        endlessScrollListener = object : EndlessRecyclerOnScrollListener() {
+        endlessScrollListener = object : EndlessRecyclerOnScrollListener(footerAdapter) {
             override fun onLoadMore(currentPage: Int) {
                 Timber.i("endlessScrollListener onLoadMore, page: $currentPage")
-                showProgressItemScrolling()
-                // Loading new items
+//                footerAdapter.clear()
+//                val progressItem = ProgressItem()
+//                progressItem.isEnabled = false
+//                footerAdapter.add(ProgressItem())
+//                endlessScrollListener.disable()
+
                 viewModel.loadNextPage()
             }
         }
@@ -210,8 +201,8 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         viewModel.userList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 setUserItem(it)
-                updateFilter(viewModel.searchTerm.value)
                 updateFilteringUi()
+                updateFilterHighLighting()
             }
         })
 
@@ -221,12 +212,6 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
                 updateStatutUi(it)
                 updateFilteringUi()
             }
-        })
-
-        // Observing search term
-        viewModel.searchTerm.observe(viewLifecycleOwner, Observer {
-            updateFilter(it)
-            updateFilteringUi()
         })
     }
 
@@ -238,6 +223,8 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
 
         when (status) {
             Status.LOADING -> {
+                //disable endless scroll listener to avoid infinite load
+                //                endlessScrollListener.disable()
                 //synchronization elements
                 binding.syncFailedIv.isVisible = false
                 binding.syncFailedTv.isVisible = false
@@ -282,7 +269,7 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
      * Handle highlinghting of the text matching with filter term
      */
     private fun updateFilterHighLighting() {
-        val term = viewModel.searchTerm.value
+        val term = viewModel.searchTerm
         for (item: GenericItem in fastItemAdapter.itemAdapter.itemList.items) {
             if (item is UserItem) {
                 item.highlightTerm = term!!
@@ -297,24 +284,6 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
         snackbar.view.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.primaryColor))
         snackbar.show()
     }
-
-    private fun updateFilter(term: String?) {
-        term?.let {
-            Timber.d("updateFilter: >${term}<")
-            fastItemAdapter.filter(it)
-            updateFilterHighLighting()
-        }
-    }
-
-    override fun itemsFiltered(constraint: CharSequence?, results: List<GenericItem>?) {
-        footerAdapter.clear()
-        endlessScrollListener.disable()
-
-        updateFilteringUi()
-        updateFilterHighLighting()
-    }
-
-    override fun onReset() {}
 
     /**
      * Show fragment detail of user to display
@@ -351,5 +320,7 @@ class UserOverviewFragment : Fragment(), ItemFilterListener<GenericItem> {
 
         // Add UserItems in the itemAdapter with DiffUtil
         FastAdapterDiffUtil[fastItemAdapter.itemAdapter] = userItemList
+        Timber.d("After setUserItem, item count:${fastItemAdapter.adapterItemCount}")
+        Timber.d("endless scroll totalCount:${endlessScrollListener.totalItemCount}")
     }
 }
