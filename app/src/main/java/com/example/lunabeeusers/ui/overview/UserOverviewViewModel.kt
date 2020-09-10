@@ -60,6 +60,8 @@ class UserOverviewViewModel @ViewModelInject constructor(
         pageToLoad = 0
         maxPageReached = false
         _usersListToShow.value!!.clear()
+        _allUsersList.clear()
+        _newUsers.clear()
     }
 
     fun searchUser(searchTerm: String?) {
