@@ -21,6 +21,9 @@ class UserOverviewViewModel @ViewModelInject constructor(
     // The internal List<User> that stores the users return by the Api
     private var _allUsersList = ArrayList<User>()
 
+    // The internal List<User> that store new users loaded not yet showing
+    private var _newUsers = ArrayList<User>()
+
     // The internal MutableLiveData List<User> that stores the users to show
     private val _usersListToShow = MutableLiveData<ArrayList<User>>()
 
@@ -38,14 +41,16 @@ class UserOverviewViewModel @ViewModelInject constructor(
         get() = _searchTerm
 
     private var pageToLoad: Int = 0
+    private var maxPageReached = false
 
     init {
+        _usersListToShow.value = ArrayList()
         refreshData()
     }
 
     fun refreshData() {
         resetUserList()
-        getUsersPageFromApi()
+        loadNextPage()
     }
 
     /**
@@ -53,16 +58,17 @@ class UserOverviewViewModel @ViewModelInject constructor(
      */
     fun resetUserList() {
         pageToLoad = 0
-        _usersListToShow.value = ArrayList()
+        maxPageReached = false
+        _usersListToShow.value!!.clear()
     }
 
     fun searchUser(searchTerm: String?) {
-        if (searchTerm == null) {
-            this._searchTerm = ""
-        } else {
-            this._searchTerm = searchTerm
+        _searchTerm = searchTerm ?: ""
+        _usersListToShow.value = getUsersFiltered(_allUsersList)
+
+        if (_usersListToShow.value!!.size < Constant.PAGE_SIZE) {
+            loadNextPage()
         }
-        applyFilter()
     }
 
     fun clearUserFilter() {
@@ -77,7 +83,6 @@ class UserOverviewViewModel @ViewModelInject constructor(
                     when (resource.status) {
                         Status.SUCCESS -> {
                             _allUsersList = resource.data as ArrayList<User>
-                            applyFilter()
                         }
                         Status.ERROR -> Timber.d(resource.message)
                     }
@@ -86,39 +91,57 @@ class UserOverviewViewModel @ViewModelInject constructor(
         }
     }
 
-    fun getUsersPageFromApi() {
-        viewModelScope.launch {
-
-            repository.getUsersPage(pageToLoad)
-                .collect { resource: Resource<List<User>> ->
-                    when (resource.status) {
-                        Status.SUCCESS -> {
-                            _allUsersList.addAll(resource.data as ArrayList<User>)
-                            applyFilter()
+    suspend fun getUsersPageFromApi() {
+        repository.getUsersPage(pageToLoad)
+            .collect { resource: Resource<List<User>> ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        val result = resource.data as ArrayList<User>
+                        if (result.isEmpty()) {
+                            maxPageReached = true
+                        } else {
+                            _allUsersList.addAll(result)
+                            _newUsers.addAll(result)
                         }
-                        Status.ERROR -> Timber.d(resource.message)
                     }
-                    _statut.value = resource.status
+                    Status.ERROR -> Timber.d(resource.message)
                 }
-        }
+                _statut.value = resource.status
+            }
     }
 
     fun loadNextPage() {
-        pageToLoad = _allUsersList.size.div(Constant.PAGE_SIZE)
-        Timber.i("loadNextPage(): ${pageToLoad}")
-        getUsersPageFromApi()
+        if (!maxPageReached) {
+            viewModelScope.launch {
+                _newUsers.clear()
+                var newUsersToShow = ArrayList<User>()
+
+                while (newUsersToShow.size < Constant.PAGE_SIZE && _statut.value != Status.ERROR && !maxPageReached) {
+                    pageToLoad = _allUsersList.size.div(Constant.PAGE_SIZE)
+                    getUsersPageFromApi()
+                    newUsersToShow = getUsersFiltered(_newUsers)
+                }
+
+                _usersListToShow += newUsersToShow
+                _newUsers.clear()
+            }
+        }
     }
 
     fun isFilterEmpty(): Boolean = _searchTerm == null || _searchTerm.equals("")
 
-    private fun applyFilter() {
-        val filteredList = ArrayList<User>()
-        for (user in _allUsersList) {
+    /**
+     * Filtering of a user list whith _searchTerm and set result in this list
+     * @param listToFilter list where data will be picked
+     */
+    private fun getUsersFiltered(listToFilter: ArrayList<User>): ArrayList<User> {
+        val result = ArrayList<User>()
+        for (user in listToFilter) {
             if (user.isConcernedByTerm(_searchTerm)) {
-                filteredList.add(user)
+                result.add(user)
             }
         }
-        _usersListToShow.value = filteredList
+        return result
     }
 
     operator fun <T> MutableLiveData<ArrayList<T>>.plusAssign(values: List<T>) {

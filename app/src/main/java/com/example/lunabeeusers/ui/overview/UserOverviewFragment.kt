@@ -160,19 +160,7 @@ class UserOverviewFragment : Fragment() {
         binding.usersRv.itemAnimator = DefaultItemAnimator()
 
         // onScroll listener
-        endlessScrollListener = object : EndlessRecyclerOnScrollListener(footerAdapter) {
-            override fun onLoadMore(currentPage: Int) {
-                Timber.i("endlessScrollListener onLoadMore, page: $currentPage")
-//                footerAdapter.clear()
-//                val progressItem = ProgressItem()
-//                progressItem.isEnabled = false
-//                footerAdapter.add(ProgressItem())
-//                endlessScrollListener.disable()
-
-                viewModel.loadNextPage()
-            }
-        }
-        binding.usersRv.addOnScrollListener(endlessScrollListener)
+        setupScrollListener()
 
         // Add Decorator to RecyclerView
         binding.usersRv.addItemDecoration(
@@ -321,6 +309,23 @@ class UserOverviewFragment : Fragment() {
         // Add UserItems in the itemAdapter with DiffUtil
         FastAdapterDiffUtil[fastItemAdapter.itemAdapter] = userItemList
         Timber.d("After setUserItem, item count:${fastItemAdapter.adapterItemCount}")
-        Timber.d("endless scroll totalCount:${endlessScrollListener.totalItemCount}")
+        setupScrollListener()
+    }
+
+    private fun setupScrollListener() {
+        endlessScrollListener = object : EndlessRecyclerOnScrollListener(footerAdapter) {
+            override fun onLoadMore(currentPage: Int) {
+                Timber.i("endlessScrollListener onLoadMore, page: $currentPage")
+                //                footerAdapter.clear()
+                //                val progressItem = ProgressItem()
+                //                progressItem.isEnabled = false
+                //                footerAdapter.add(ProgressItem())
+                //                endlessScrollListener.disable()
+
+                viewModel.loadNextPage()
+            }
+        }
+        binding.usersRv.clearOnScrollListeners()
+        binding.usersRv.addOnScrollListener(endlessScrollListener)
     }
 }
