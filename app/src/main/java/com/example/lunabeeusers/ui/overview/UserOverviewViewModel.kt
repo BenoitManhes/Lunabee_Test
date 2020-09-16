@@ -42,9 +42,9 @@ class UserOverviewViewModel @ViewModelInject constructor(
 
     private var pageToLoad: Int = 0
     private var maxPageReached = false
+    private lateinit var lastTaskStatus: Status
 
     init {
-        _usersListToShow.value = ArrayList()
         refreshData()
     }
 
@@ -59,7 +59,7 @@ class UserOverviewViewModel @ViewModelInject constructor(
     fun resetUserList() {
         pageToLoad = 0
         maxPageReached = false
-        _usersListToShow.value!!.clear()
+        _usersListToShow.value = ArrayList()
         _allUsersList.clear()
         _newUsers.clear()
     }
@@ -99,7 +99,7 @@ class UserOverviewViewModel @ViewModelInject constructor(
                 when (resource.status) {
                     Status.SUCCESS -> {
                         val result = resource.data as ArrayList<User>
-                        if (result.isEmpty()) {
+                        if (result.isEmpty() && pageToLoad > 0) {
                             maxPageReached = true
                         } else {
                             _allUsersList.addAll(result)
@@ -108,23 +108,28 @@ class UserOverviewViewModel @ViewModelInject constructor(
                     }
                     Status.ERROR -> Timber.d(resource.message)
                 }
-                _statut.value = resource.status
+                lastTaskStatus = resource.status
+                Timber.d("Status: ${resource.status}")
             }
     }
 
     fun loadNextPage() {
         if (!maxPageReached) {
             viewModelScope.launch {
+                _statut.value = Status.LOADING
                 _newUsers.clear()
                 var newUsersToShow = ArrayList<User>()
 
-                while (newUsersToShow.size < Constant.PAGE_SIZE && _statut.value != Status.ERROR && !maxPageReached) {
+                do {
                     pageToLoad = _allUsersList.size.div(Constant.PAGE_SIZE)
                     getUsersPageFromApi()
                     newUsersToShow = getUsersFiltered(_newUsers)
-                }
+                } while (newUsersToShow.size < Constant.PAGE_SIZE && lastTaskStatus != Status.ERROR && !maxPageReached)
 
-                _usersListToShow += newUsersToShow
+                if (!newUsersToShow.isEmpty()) {
+                    _usersListToShow += newUsersToShow
+                }
+                _statut.value = lastTaskStatus
                 _newUsers.clear()
             }
         }

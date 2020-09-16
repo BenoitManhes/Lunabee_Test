@@ -207,12 +207,11 @@ class UserOverviewFragment : Fragment() {
      * Handle ui element visibility according to statut
      */
     private fun updateStatutUi(status: Status) {
-        val nothingToShow = fastItemAdapter.itemCount == 0 && viewModel.isFilterEmpty()
+        val nothingToShow = fastItemAdapter.itemAdapter.adapterItemCount == 0
 
+        updateProgress()
         when (status) {
             Status.LOADING -> {
-                //disable endless scroll listener to avoid infinite load
-                //                endlessScrollListener.disable()
                 //synchronization elements
                 binding.syncFailedIv.isVisible = false
                 binding.syncFailedTv.isVisible = false
@@ -269,7 +268,8 @@ class UserOverviewFragment : Fragment() {
 
     private fun showSnackBar(messageSrc: Int) {
         val snackbar = Snackbar.make(binding.root, messageSrc, Snackbar.LENGTH_SHORT)
-        snackbar.view.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.primaryColor))
+        snackbar.view.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_littlebutton)
+        snackbar.setTextColor(ContextCompat.getColor(requireContext(), R.color.primaryTextColor))
         snackbar.show()
     }
 
@@ -316,16 +316,22 @@ class UserOverviewFragment : Fragment() {
         endlessScrollListener = object : EndlessRecyclerOnScrollListener(footerAdapter) {
             override fun onLoadMore(currentPage: Int) {
                 Timber.i("endlessScrollListener onLoadMore, page: $currentPage")
-                //                footerAdapter.clear()
-                //                val progressItem = ProgressItem()
-                //                progressItem.isEnabled = false
-                //                footerAdapter.add(ProgressItem())
-                //                endlessScrollListener.disable()
-
                 viewModel.loadNextPage()
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             }
         }
         binding.usersRv.clearOnScrollListeners()
         binding.usersRv.addOnScrollListener(endlessScrollListener)
     }
+    private fun updateProgress() {
+        footerAdapter.clear()
+        if (viewModel.statut.value == Status.LOADING && !swiperefresh.isRefreshing) {
+            val progressItem = ProgressItem()
+            progressItem.isEnabled = false
+            footerAdapter.add(ProgressItem())
+        }
+    }
+
 }
