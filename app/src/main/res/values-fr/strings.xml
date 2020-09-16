@@ -8,4 +8,5 @@
     <string name="fragment_overview_label">Utilisateurs Lunabee</string>
     <string name="fragment_detail_label">Utilisateur</string>
     <string name="darkmode">Mode nuit</string>
+    <string name="go_top_btn">Haut de page</string>
 </resources>

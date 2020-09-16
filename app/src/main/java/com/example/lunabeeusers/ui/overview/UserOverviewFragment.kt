@@ -8,10 +8,10 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDelegate
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.core.view.MenuItemCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -42,6 +42,7 @@ import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.user_overview_fragment.*
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -51,8 +52,13 @@ class UserOverviewFragment : Fragment() {
     private lateinit var binding: UserOverviewFragmentBinding
     private lateinit var fastItemAdapter: GenericFastItemAdapter
     private lateinit var footerAdapter: GenericItemAdapter
+    private lateinit var linearlayoutManager: LinearLayoutManager
     private lateinit var endlessScrollListener: EndlessRecyclerOnScrollListener
     private lateinit var searchView: SearchView
+
+    //animation
+    private lateinit var slideInTop: Animation
+    private lateinit var slideOutTop: Animation
 
     private var lastClickTime: Long = 0
     private var isOnPause = false
@@ -74,6 +80,7 @@ class UserOverviewFragment : Fragment() {
         setupSwipRefreshLayout()
         setupListener()
         setupObservers()
+        setupAnimations()
 
         // When user hits back button transition takes backward
         postponeEnterTransition()
@@ -156,7 +163,8 @@ class UserOverviewFragment : Fragment() {
 
         // Setup RecyclerView
         binding.usersRv.adapter = fastItemAdapter
-        binding.usersRv.layoutManager = LinearLayoutManager(context)
+        linearlayoutManager = LinearLayoutManager(context)
+        binding.usersRv.layoutManager = linearlayoutManager
         binding.usersRv.itemAnimator = DefaultItemAnimator()
 
         // onScroll listener
@@ -181,6 +189,14 @@ class UserOverviewFragment : Fragment() {
     private fun setupListener() {
         binding.tryAgain.setOnClickListener {
             viewModel.refreshData()
+        }
+
+        binding.goTopBtn.setOnClickListener {
+            //avoid to long smooth scrolling
+            if (linearlayoutManager.findFirstVisibleItemPosition() > Constant.MAX_ITEMS_SMOOTH_SCROLLING) {
+                binding.usersRv.scrollToPosition(Constant.MAX_ITEMS_SMOOTH_SCROLLING)
+            }
+            binding.usersRv.smoothScrollToPosition(0)
         }
     }
 
@@ -320,11 +336,37 @@ class UserOverviewFragment : Fragment() {
             }
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (linearlayoutManager.findFirstVisibleItemPosition() == 0 || dy > 0) {
+                    hideGoTopBtn()
+                } else if (dy < -10) {
+                    showGoTopBtn()
+                }
             }
         }
         binding.usersRv.clearOnScrollListeners()
         binding.usersRv.addOnScrollListener(endlessScrollListener)
     }
+
+    private fun setupAnimations() {
+        slideInTop = AnimationUtils.loadAnimation(context, R.anim.slide_in_top)
+        slideOutTop = AnimationUtils.loadAnimation(context, R.anim.slide_out_top)
+    }
+
+    private fun hideGoTopBtn() {
+        if (binding.goTopBtn.visibility != View.INVISIBLE) {
+            binding.goTopBtn.startAnimation(slideOutTop)
+            binding.goTopBtn.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun showGoTopBtn() {
+        if (binding.goTopBtn.visibility != View.VISIBLE) {
+            binding.goTopBtn.visibility = View.VISIBLE
+            binding.goTopBtn.startAnimation(slideInTop)
+        }
+    }
+
     private fun updateProgress() {
         footerAdapter.clear()
         if (viewModel.statut.value == Status.LOADING && !swiperefresh.isRefreshing) {
