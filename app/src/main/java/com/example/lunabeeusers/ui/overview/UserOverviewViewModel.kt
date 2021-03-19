@@ -1,6 +1,5 @@
 package com.example.lunabeeusers.ui.overview
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,11 +9,14 @@ import com.example.lunabeeusers.data.repository.UserRepository
 import com.example.lunabeeusers.utils.Constant
 import com.example.lunabeeusers.utils.Resource
 import com.example.lunabeeusers.utils.Resource.Status
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
-class UserOverviewViewModel @ViewModelInject constructor(
+@HiltViewModel
+class UserOverviewViewModel @Inject constructor(
     private val repository: UserRepository
 ) : ViewModel() {
 

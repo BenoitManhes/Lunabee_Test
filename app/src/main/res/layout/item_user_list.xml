@@ -13,19 +13,32 @@
         android:background="?attr/selectableItemBackground"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/userAvatarIv"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/roundCardView"
             android:layout_width="@dimen/avatar_preview_size"
             android:layout_height="@dimen/avatar_preview_size"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="@dimen/margin_short"
             android:layout_marginTop="@dimen/margin_short"
             android:layout_marginBottom="@dimen/margin_short"
-            android:background="@drawable/backgroung_avatar"
+            android:innerRadius="0dp"
+            android:shape="ring"
+            android:thicknessRatio="1.9"
+            android:clipChildren="true"
+            app:cardCornerRadius="@dimen/radius_round_shape"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompact="@tools:sample/avatars" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/userAvatarIv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="?colorSecondaryVariant"
+                tools:srcCompact="@tools:sample/avatars" />
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/nameTv"
@@ -36,7 +49,7 @@
             android:textAppearance="@style/TextAppearance.ItemHeadLine"
             app:layout_constraintBottom_toTopOf="@+id/guidelineH"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/userAvatarIv"
+            app:layout_constraintStart_toEndOf="@+id/roundCardView"
             tools:text="Woody Harelson" />
 
         <TextView
@@ -44,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.ItemBody"
-            app:layout_constraintBottom_toBottomOf="@+id/userAvatarIv"
+            app:layout_constraintBottom_toBottomOf="@+id/roundCardView"
             app:layout_constraintEnd_toEndOf="@+id/nameTv"
             app:layout_constraintStart_toStartOf="@+id/nameTv"
             app:layout_constraintTop_toBottomOf="@+id/guidelineH"
