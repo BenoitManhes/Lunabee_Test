@@ -1,11 +1,12 @@
 buildscript {
     ext.versions = [
             'androidx'   : [
-                    'appcompat'       : '1.2.0',
-                    'constraintlayout': '2.0.4',
-                    'lifecycle'       : '2.3.0',
-                    'navigation'      : '2.3.4',
-                    'recyclerview'    : '1.1.0'
+                    'appcompat'         : '1.2.0',
+                    'constraintlayout'  : '2.0.4',
+                    'lifecycle'         : '2.3.0',
+                    'navigation'        : '2.3.4',
+                    'recyclerview'      : '1.1.0',
+                    'swiperefreshlayout': '1.1.0',
             ],
             'dagger'     : '2.33-beta',
             'fastadapter': '5.3.2',

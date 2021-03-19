@@ -52,17 +52,15 @@ dependencies {
     // AndroidX
     implementation "androidx.appcompat:appcompat:${versions.androidx.appcompat}"
     implementation "androidx.constraintlayout:constraintlayout:${versions.androidx.constraintlayout}"
-    implementation "androidx.lifecycle:lifecycle-extensions:${versions.androidx.lifecycle}"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.androidx.lifecycle}"
-    implementation "androidx.lifecycle:lifecycle-extensions:${versions.androidx.lifecycle}"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.androidx.lifecycle}"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:${versions.androidx.lifecycle}"
     implementation "androidx.recyclerview:recyclerview:${versions.androidx.recyclerview}"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:${versions.androidx.swiperefreshlayout}"
 
     //Dagger-Hilt
     implementation "com.google.dagger:hilt-android:${versions.dagger}"
     kapt "com.google.dagger:hilt-android-compiler:${versions.dagger}"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:${versions.hilt.viewModel}"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:${versions.hilt.viewmodel}"
     kapt "androidx.hilt:hilt-compiler:${versions.hilt.compiler}"
 
     // Fast adapter
