@@ -1,3 +1,5 @@
+apply from: '../versions.gradle'
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -43,58 +45,52 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    testImplementation 'junit:junit:4.12'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version_kotlin"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin.core}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.kotlin.coroutines}"
 
-    // Lifecyle
-    implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$version_lifecycle"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$version_lifecycle"
+    // AndroidX
+    implementation "androidx.appcompat:appcompat:${versions.androidx.appcompat}"
+    implementation "androidx.constraintlayout:constraintlayout:${versions.androidx.constraintlayout}"
+    implementation "androidx.lifecycle:lifecycle-extensions:${versions.androidx.lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.androidx.lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-extensions:${versions.androidx.lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.androidx.lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:${versions.androidx.lifecycle}"
+    implementation "androidx.recyclerview:recyclerview:${versions.androidx.recyclerview}"
 
-    // UI
-    implementation "androidx.constraintlayout:constraintlayout:$version_constraint_layout"
-    implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
-    implementation "com.mikepenz:fastadapter:$version_fast_adapter"
-    implementation "com.mikepenz:fastadapter-extensions-binding:$version_fast_adapter"
-    implementation "com.mikepenz:fastadapter-extensions-diff:$version_fast_adapter"
-    implementation "com.mikepenz:fastadapter-extensions-scroll:$version_fast_adapter"
-    implementation "com.mikepenz:fastadapter-extensions-ui:$version_fast_adapter"
-    implementation "com.mikepenz:fastadapter-extensions-utils:$version_fast_adapter"
+    //Dagger-Hilt
+    implementation "com.google.dagger:hilt-android:${versions.dagger}"
+    kapt "com.google.dagger:hilt-android-compiler:${versions.dagger}"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:${versions.hilt.viewModel}"
+    kapt "androidx.hilt:hilt-compiler:${versions.hilt.compiler}"
+
+    // Fast adapter
+    implementation "com.mikepenz:fastadapter:${versions.fastadapter}"
+    implementation "com.mikepenz:fastadapter-extensions-binding:${versions.fastadapter}"
+    implementation "com.mikepenz:fastadapter-extensions-diff:${versions.fastadapter}"
+    implementation "com.mikepenz:fastadapter-extensions-scroll:${versions.fastadapter}"
+    implementation "com.mikepenz:fastadapter-extensions-ui:${versions.fastadapter}"
+    implementation "com.mikepenz:fastadapter-extensions-utils:${versions.fastadapter}"
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:${versions.glide}"
 
     // Material design components
-    implementation "com.google.android.material:material:$version_material_design"
-
-    // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$version_navigation"
-    implementation "androidx.navigation:navigation-ui-ktx:$version_navigation"
+    implementation "com.google.android.material:material:${versions.google.material}"
 
     // Moshi (Convert JSON to Object)
-    implementation "com.squareup.moshi:moshi:$version_moshi"
-    implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
+    implementation "com.squareup.moshi:moshi:${versions.moshi}"
+    implementation "com.squareup.moshi:moshi-kotlin:${versions.moshi}"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:${versions.androidx.navigation}"
+    implementation "androidx.navigation:navigation-ui-ktx:${versions.androidx.navigation}"
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit: $version_retrofit"
-    implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
-
-    // Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_kotlin_coroutines"
-
-    // Glide (Display Image URL)
-    implementation "com.github.bumptech.glide:glide:$version_glide"
+    implementation "com.squareup.retrofit2:retrofit:${versions.retrofit}"
+    implementation "com.squareup.retrofit2:converter-moshi:${versions.retrofit}"
 
     // Timber
-    implementation "com.jakewharton.timber:timber:$version_timber"
-
-    //Hilt
-    implementation "com.google.dagger:hilt-android:$version_hilt_android"
-    kapt "com.google.dagger:hilt-android-compiler:$version_hilt_android"
-
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$version_hilt_lifecycle"
-    kapt "androidx.hilt:hilt-compiler:$version_hilt"
+    implementation "com.jakewharton.timber:timber:${versions.timber}"
 }
