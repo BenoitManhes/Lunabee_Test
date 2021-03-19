@@ -2,7 +2,6 @@ package com.example.lunabeeusers.di
 
 import com.example.lunabeeusers.data.remote.ApiService
 import com.example.lunabeeusers.data.remote.UserRemoteDataSource
-import com.example.lunabeeusers.data.repository.UserRepository
 import com.example.lunabeeusers.utils.Constant
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -39,9 +38,4 @@ object AppModule {
     @Provides
     fun provideUserRemoteDataSource(apiService: ApiService) =
         UserRemoteDataSource(apiService)
-
-    @Singleton
-    @Provides
-    fun provideRepository(remoteDataSource: UserRemoteDataSource) =
-        UserRepository(remoteDataSource)
 }
