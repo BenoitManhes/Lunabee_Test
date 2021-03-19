@@ -1,38 +1,74 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorPrimaryVariant">@color/primaryLightColor</item>
+        <item name="colorOnPrimary">@color/primaryTextColor</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
+        <item name="colorOnSecondary">@color/secondaryTextColor</item>
+        <item name="colorOnBackground">@color/backgroundTextColor</item>
+        <item name="colorSurface">@color/surfaceColor</item>
+        <item name="android:textColorHighlight">@color/highlightColor</item>
+
+        <item name="actionBarStyle">@style/ActionBarPrimary</item>
+        <item name="android:actionBarStyle">@style/ActionBarPrimary</item>
+        <item name="fontFamily">@font/rubik</item>
+
+        <!-- enable window content transitions -->
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowActionBarOverlay">false</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
     </style>
 
-    <style name="textview_user_item" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:fontFamily">@font/palanquin_medium</item>
-        <item name="android:textColor">@color/colorBackgroundDark</item>
-        <item name="android:textSize">@dimen/item_text_size</item>
+    <style name="ActionBarPrimary" parent="Widget.MaterialComponents.ActionBar.Primary">
+        <item name="background">?colorPrimary</item>
+        <item name="titleTextStyle">@style/TextAppearance.ActionBar</item>
     </style>
 
-    <style name="textview_error" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:fontFamily">@font/heebo_light</item>
-        <item name="android:textColor">@color/colorBackgroundLight</item>
-        <item name="android:textSize">@dimen/error_text_size</item>
+    <!-- Base Text style-->
+    <style name="TextAppearance.BaseHeadline" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">?colorOnBackground</item>
+        <item name="android:textSize">@dimen/text_headline_base</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="little_button_text" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:fontFamily">@font/heebo_light</item>
-        <item name="android:textColor">@color/colorBackgroundDark</item>
-        <item name="android:textSize">@dimen/error_text_size</item>
+    <style name="TextAppearance.BaseBody" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">?colorSecondary</item>
+        <item name="android:textSize">@dimen/text_body_base</item>
     </style>
 
-    <style name="detail_title_text" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:fontFamily">@font/palanquin_medium</item>
-        <item name="android:textColor">@color/colorBackgroundDark</item>
-        <item name="android:textSize">@dimen/detail_text_title</item>
+    <!-- ActionBar style-->
+    <style name="TextAppearance.ActionBar" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+
+    <!-- Item style-->
+    <style name="TextAppearance.ItemHeadLine" parent="TextAppearance.BaseHeadline">
+        <item name="android:textSize">@dimen/text_headline_item</item>
+    </style>
+
+    <style name="TextAppearance.ItemBody" parent="TextAppearance.BaseBody">
+        <item name="android:textSize">@dimen/text_body_item</item>
+        <item name="android:minHeight">0dp</item>
+    </style>
+
+    <!-- Error style-->
+    <style name="TextAppearance.ErrorBody" parent="TextAppearance.BaseBody">
+        <item name="android:textColor">?colorOnBackground</item>
+        <item name="android:textSize">@dimen/text_body_error</item>
+    </style>
+
+    <!-- Button style-->
+    <style name="TextAppearance.LittleButtonBody" parent="TextAppearance.BaseBody">
+        <item name="android:textColor">?colorOnPrimary</item>
+        <item name="android:textSize">@dimen/text_body_littlebutton</item>
     </style>
 
     <style name="little_icon_button">
+        <item name="android:textAppearance">@style/TextAppearance.LittleButtonBody</item>
         <item name="android:minHeight">@dimen/button_min_size</item>
         <item name="android:minWidth">@dimen/button_min_size</item>
         <item name="android:paddingTop">@dimen/button_vertical_padding</item>
@@ -40,8 +76,7 @@
         <item name="android:paddingLeft">@dimen/button_horizontal_padding</item>
         <item name="android:paddingRight">@dimen/button_horizontal_padding</item>
         <item name="android:drawablePadding">@dimen/button_icon_padding</item>
-        <item name="android:background">@drawable/round_corner_background</item>
-        <item name="android:textAppearance">@style/little_button_text</item>
+        <item name="android:background">@drawable/background_littlebutton</item>
     </style>
 
 </resources>

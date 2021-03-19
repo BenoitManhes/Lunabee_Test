@@ -1,114 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.MainActivity"
-        tools:background="@color/colorBackgroundDark">
+        android:layout_height="match_parent">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swiperefresh"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="81dp"
-            tools:layout_editor_absoluteY="78dp"
-            tools:visibility="gone">
+            tools:context=".ui.MainActivity">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/users_rv"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@color/colorBackgroundDark"
-                android:clipToPadding="false"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swiperefresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteX="81dp"
+                tools:layout_editor_absoluteY="78dp"
+                tools:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/users_rv"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:clipToPadding="false"
+                    android:paddingHorizontal="@dimen/padding_medium"
+                    android:scrollbars="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="16"
+                    tools:listitem="@layout/item_user_list" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <ProgressBar
+                android:id="@+id/spinner"
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/secondaryDarkColor"
+                android:indeterminateTintMode="src_atop"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/syncFailedIv"
+                android:layout_width="@dimen/cloud_img_size"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="H,3:2"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:itemCount="16"
-                tools:listitem="@layout/item_user_list" />
+                app:srcCompat="@drawable/ic_no_connection_cloud" />
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            <TextView
+                android:id="@+id/syncFailedTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_short"
+                android:text="@string/sync_failed"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.ErrorBody"
+                app:layout_constraintEnd_toEndOf="@+id/syncFailedIv"
+                app:layout_constraintStart_toStartOf="@+id/syncFailedIv"
+                app:layout_constraintTop_toBottomOf="@+id/syncFailedIv" />
 
-        <ProgressBar
-            android:id="@+id/spinner"
-            style="@style/Widget.AppCompat.ProgressBar"
+            <Button
+                android:id="@+id/tryAgain"
+                style="@style/little_icon_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:drawableLeft="@drawable/ic_refresh"
+                android:text="@string/try_again"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/syncFailedTv" />
+
+            <ImageView
+                android:id="@+id/noResultIv"
+                android:layout_width="@dimen/no_result_size"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/margin_no_result"
+                android:visibility="gone"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_no_search_results"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/noResultText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_short"
+                android:text="@string/no_result_filter"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.ErrorBody"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/noResultIv"
+                app:layout_constraintStart_toStartOf="@+id/noResultIv"
+                app:layout_constraintTop_toBottomOf="@+id/noResultIv"
+                tools:visibility="visible" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/little_icon_button"
+            android:id="@+id/goTopBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:indeterminateTint="@color/colorBackgroundLight"
-            android:indeterminateTintMode="src_atop"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
+            android:layout_gravity="center_horizontal|top"
+            android:layout_margin="@dimen/margin_medium"
+            android:text="@string/go_top_btn"
+            android:visibility="invisible"
+            app:icon="@drawable/ic_baseline_arrow_upward_24"
+            tools:visibility="visible"/>
 
-        <ImageView
-            android:id="@+id/syncFailedIv"
-            android:layout_width="@dimen/cloud_img_size"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="H,3:2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_no_connection_cloud" />
-
-        <TextView
-            android:id="@+id/syncFailedTv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/short_margin"
-            android:text="@string/sync_failed"
-            android:textAlignment="center"
-            android:textAppearance="@style/textview_error"
-            app:layout_constraintEnd_toEndOf="@+id/syncFailedIv"
-            app:layout_constraintStart_toStartOf="@+id/syncFailedIv"
-            app:layout_constraintTop_toBottomOf="@+id/syncFailedIv"/>
-
-        <Button
-            android:id="@+id/tryAgain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/large_margin"
-            android:drawableLeft="@drawable/ic_refresh"
-            android:text="@string/try_again"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/syncFailedTv"
-            style="@style/little_icon_button" />
-
-        <ImageView
-            android:id="@+id/noResultIv"
-            android:layout_width="@dimen/no_result_size"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/no_result_margin"
-            android:visibility="gone"
-            app:layout_constraintDimensionRatio="H,1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_no_search_results"
-            tools:visibility="visible" />
-
-        <TextView
-            android:id="@+id/noResultText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/short_margin"
-            android:text="@string/no_result_filter"
-            android:textAlignment="center"
-            android:textAppearance="@style/textview_error"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@+id/noResultIv"
-            app:layout_constraintStart_toStartOf="@+id/noResultIv"
-            app:layout_constraintTop_toBottomOf="@+id/noResultIv"
-            tools:visibility="visible" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

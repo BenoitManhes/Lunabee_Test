@@ -8,10 +8,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.text.clearSpans
 import com.bumptech.glide.Glide
+import com.example.lunabeeusers.data.model.User
 
-fun ImageView.loadImageFromUrl(imgUrl: String?) {
+fun ImageView.loadCircleImageFromUrl(imgUrl: String?) {
     Glide.with(context)
         .load(imgUrl)
+        .dontTransform()
+        .circleCrop()
         .into(this)
 }
 
@@ -32,3 +35,6 @@ fun TextView.clearHighligh() {
     result.clearSpans()
     text = result
 }
+
+fun avatarTransitionName(user: User) = "avatar_${user.id}"
+fun nameTransitionName(user: User) = "name_${user.id}"

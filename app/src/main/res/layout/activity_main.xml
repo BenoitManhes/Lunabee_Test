@@ -21,6 +21,20 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/nav_graph" />
 
+        <ImageView
+            android:layout_width="@dimen/radius_medium"
+            android:layout_height="@dimen/radius_medium"
+            android:src="@drawable/ic_corner_top_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="@dimen/radius_medium"
+            android:layout_height="@dimen/radius_medium"
+            android:src="@drawable/ic_corner_top_right"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

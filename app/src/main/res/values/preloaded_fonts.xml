@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
-        <item>@font/allerta</item>
-        <item>@font/heebo_thin</item>
-        <item>@font/palanquin_medium</item>
+        <item>@font/rubik</item>
     </array>
 </resources>

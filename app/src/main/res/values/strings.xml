@@ -6,4 +6,6 @@
     <string name="no_result_filter">No result</string>
     <string name="fragment_overview_label">Lunabee Users</string>
     <string name="fragment_detail_label">User Detail</string>
+    <string name="darkmode">Dark mode</string>
+    <string name="go_top_btn">Go top</string>
 </resources>
